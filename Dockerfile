@@ -11,7 +11,8 @@ ENV WEB_PORT=80
 VOLUME ["/data"]
 
 # Install Webtatic (PHP YUM Repo)
-RUN yum -y install https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && mkdir -p /7dtd-servermod/images
+RUN mkdir -p /7dtd-servermod/images
+#RUN yum -y install https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && mkdir -p /7dtd-servermod/images
 
 # Copy 7DTD ServerMod Manager Files into Place
 COPY files/* /
@@ -37,8 +38,11 @@ echo "command       = $2";\necho "startsecs     = 3";\necho "priority      = 1";
 
 # Install daemon packages# Install base packages
 RUN yum -y install supervisor telnet expect unzip wget net-tools sudo git logrotate which p7zip p7zip-plugins sysvinit-tools svn cronie curl
-RUN yum -y install sqlite
-RUN yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-curl php72w-sqlite3 php72w-gd
+#RUN yum -y install sqlite
+#RUN yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-curl php72w-sqlite3 php72w-gd
+RUN yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+RUN yum --enablerepo=remi-php73 install http php php-common php-opcache php-mcrypt php-cli php-curl
+
 RUN chmod a+x /*.sh /*.php && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
 RUN wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/
 
