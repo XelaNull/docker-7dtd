@@ -6,7 +6,6 @@ ENV INSTALL_DIR=/data/7DTD
 VOLUME ["/data"]
 
 # Copy ServerMod Manager Files into Image
-#RUN mkdir -p /7dtd-servermod/image /7dtd-servermod/files
 COPY 7dtd-servermod/* /7dtd-servermod/
 COPY 7dtd-servermod/files/* /
 COPY 7dtd-servermod/images/* /7dtd-servermod/images/
@@ -17,7 +16,7 @@ COPY nginx-config/fpm-pool.conf /etc/php8/php-fpm.d/www.conf
 COPY nginx-config/php.ini /etc/php8/conf.d/custom.ini
 
 RUN apk add --no-cache busybox-extras expect wget net-tools sudo git subversion \
-    p7zip unrar unzip supervisor nginx php8 php8-fpm php8-cli curl && \
+    p7zip unrar unzip supervisor nginx php8 php8-fpm php8-cli curl bash && \
     ln -s /usr/bin/php8 /usr/bin/php
 
 # Copy steamcmd files from builder
@@ -38,22 +37,18 @@ RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/
     chmod a+x ~/.steam/steamcmd/steamcmd.sh && \
     chmod a+x ~/.steam/steamcmd/linux32/steamcmd
 
-# Update SteamCMD and verify latest version
-#RUN steamcmd +quit
-
-#RUN adduser -D steam
-
-#RUN echo "*    *       *       *       *       run-parts /etc/periodic/1min" >> /etc/crontabs/root && \
-#    mkdir /etc/periodic/1min && \
-#    echo "su - steam -c /loop_start_7dtd.sh" > /etc/periodic/1min/loop_start_7dtd_wrapper.sh
+RUN echo "*    *       *       *       *       run-parts /etc/periodic/1min" >> /etc/crontabs/root && \
+    mkdir /etc/periodic/1min && \
+    echo "/loop_start_7dtd.sh" > /etc/periodic/1min/loop_wrapper.sh && \
+    chmod a+x /etc/periodic/1min/loop_wrapper.sh
 
 RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisord\n' > /etc/supervisord.conf
 
 RUN ls -l / && chmod a+x /*.sh
 RUN /gen_sup.sh crond "crond -f -l 8" >> /etc/supervisord.conf && \
     /gen_sup.sh php8-fpm "php-fpm8 -F" >> /etc/supervisord.conf && \
-    /gen_sup.sh nginx "nginx -g 'daemon off;'" >> /etc/supervisord.conf
-#    /gen_sup.sh 7dtd-daemon "/7dtd-daemon.php /data/7DTD" >> /etc/supervisord.conf
+    /gen_sup.sh nginx "nginx -g 'daemon off;'" >> /etc/supervisord.conf && \
+    /gen_sup.sh 7dtd-daemon "/7dtd-daemon.php /data/7DTD" >> /etc/supervisord.conf
 
 
 # ServerMod Manager
