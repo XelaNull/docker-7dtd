@@ -1,6 +1,9 @@
 FROM steamcmd/steamcmd:centos-7 as builder
 FROM centos:7
 
+# 461MB Compressed
+# 511MB Uncompressed
+
 # Define configuration parameters
 ENV TIMEZONE="America/New_York" \
     TELNET_PORT="8081" \
@@ -57,7 +60,7 @@ COPY nginx-config/php.ini /etc/php.d/custom.ini
 
 # Configure Supervisor
 RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisord\n' > /etc/supervisord.conf
-RUN /gen_sup.sh php8-fpm "php-fpm -F" >> /etc/supervisord.conf && \
+RUN /gen_sup.sh php8-fpm "/opt/remi/php81/root/usr/sbin/php-fpm -F" >> /etc/supervisord.conf && \
     /gen_sup.sh nginx "nginx -g 'daemon off;'" >> /etc/supervisord.conf && \
     /gen_sup.sh severmod-cntrl "/servermod-cntrl.php $INSTALL_DIR" >> /etc/supervisord.conf && \
     /gen_sup.sh 7dtd-daemon "/7dtd-daemon.sh" >> /etc/supervisord.conf
