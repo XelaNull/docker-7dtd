@@ -13,7 +13,7 @@ VOLUME ["/data"]
 # Copy Supervisor Config Creator
 COPY files/gen_sup.sh /
 COPY files/epel.repo /etc/yum.repos.d/
-COPY files/remi-php81.repo /etc/yum.repos.d/
+COPY files/remi-safe.repo /etc/yum.repos.d/
 
 # Copy ServerMod Manager Files into Image
 COPY 7dtd-servermod/* /7dtd-servermod/
