@@ -11,7 +11,7 @@ ENV WEB_PORT=80
 VOLUME ["/data"]
 
 # Install Webtatic (PHP YUM Repo)
-RUN yum -y localinstall https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && mkdir -p /7dtd-servermod/images
+RUN yum -y install https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && mkdir -p /7dtd-servermod/images
 
 # Copy 7DTD ServerMod Manager Files into Place
 COPY files/* /
@@ -33,14 +33,15 @@ echo "command       = $2";\necho "startsecs     = 3";\necho "priority      = 1";
 
 # Install daemon packages# Install base packages
 RUN yum -y install epel-release && yum -y install supervisor vim-enhanced glibc.i686 libstdc++.i686 telnet expect unzip \
-    python wget net-tools rsync sudo git logrotate which mlocate gcc-c++ p7zip p7zip-plugins sysvinit-tools svn cronie \
-    curl sqlite php72w-cli httpd mod_php72w php72w-opcache php72w-curl php72w-sqlite3 php72w-gd && \
-    chmod a+x /*.sh /*.php && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* && \
-    wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/
+    python wget net-tools rsync sudo git logrotate which mlocate p7zip p7zip-plugins sysvinit-tools svn cronie curl
+RUN yum -y install sqlite
+RUN yum -y gcc-c++
+RUN yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-curl php72w-sqlite3 php72w-gd
+RUN chmod a+x /*.sh /*.php && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
+RUN wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/
 
 # STEAMCMD
-RUN useradd steam && cd /home/steam && wget http://media.steampowered.com/installer/steamcmd_linux.tar.gz && \
-    tar zxf steamcmd_linux.tar.gz
+RUN useradd steam
 
 # Set the Apache WEB_PORT
 # Reconfigure Apache to run under steam username, to retain ability to modify steam's files
@@ -51,15 +52,6 @@ RUN rm -rf /etc/httpd/conf.d/welcome.conf && \
     chown steam /var/lib/php -R && \
     chown steam:steam /var/www/html -R && \
     echo $'Alias "/7dtd" "/data/7DTD/html"\n<Directory "/data/7DTD">\n\tRequire all granted\n\tOptions all\n\tAllowOverride all\n</Directory>\n' > /etc/httpd/conf.d/7dtd.conf
-
-
-#COPY files/loop_start_7dtd.sh /loop_start_7dtd.sh
-#COPY files/start_7dtd.sh /start_7dtd.sh
-#COPY files/stop_7dtd.sh /stop_7dtd.sh
-#COPY files/7dtd-sendcmd.sh /7dtd-sendcmd.sh
-#COPY files/7dtd-sendcmd.php /7dtd-sendcmd.php
-#COPY files/install_7dtd.sh /install_7dtd.sh
-#COPY files/7dtd-daemon.php /7dtd-daemon.php
 
 # Create different supervisor entries
 RUN su - steam -c "(/usr/bin/crontab -l 2>/dev/null; echo '* * * * * /loop_start_7dtd.sh') | /usr/bin/crontab -" && \

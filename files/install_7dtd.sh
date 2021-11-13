@@ -2,6 +2,11 @@
 export INSTALL_DIR=/data/7DTD
 set -e
 
+# Install Steam
+cd /home/steam
+wget http://media.steampowered.com/installer/steamcmd_linux.tar.gz
+tar zxf steamcmd_linux.tar.gz
+
 # Set up the installation directory
 [[ ! -d $INSTALL_DIR/.local ]] && mkdir -p $INSTALL_DIR/.local;
 [[ ! -d $INSTALL_DIR/Mods ]] && mkdir -p $INSTALL_DIR/Mods;
