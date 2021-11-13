@@ -37,17 +37,14 @@ RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/
     chmod a+x ~/.steam/steamcmd/linux32/steamcmd
 
 # Install base YUM packages required
-#RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
-#    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
-#RUN yum -y install epel-release && \
-#    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
-RUN yum -y --enablerepo=remi-php81 install nginx php81-php-fpm php81-php-cli && \
+RUN yum -y install nginx php81-php-fpm php81-php-cli && \
     yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
 RUN yum -y install glibc.i686 libstdc++.i686 supervisor telnet expect net-tools sysvinit-tools && \
     yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
 
 # Install Tools to Extract Mods
-RUN yum -y install unzip p7zip p7zip-plugins curl svn git wget && \
+#RUN yum -y install svn
+RUN yum -y install unzip p7zip p7zip-plugins curl git wget && \
     yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* && \
     wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && \
     tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/ && \
