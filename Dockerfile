@@ -27,8 +27,6 @@ COPY 7dtd-servermod/images/* /7dtd-servermod/images/
 COPY --from=builder /usr/lib/games/steam/steamcmd.sh /usr/lib/games/steam/
 COPY --from=builder /usr/lib/games/steam/steamcmd /usr/lib/games/steam/
 COPY --from=builder /usr/bin/steamcmd /usr/bin/steamcmd
-#COPY --from=builder /etc/pki/tls/certs /etc/pki/tls/certs
-#COPY --from=builder /usr/lib /usr/lib/
 
 # Set up Steam working directories
 RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/common ~/.steam/steamcmd/linux32 && \
@@ -41,6 +39,7 @@ RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/
 
 # Install base YUM packages required
 RUN yum -y install nginx php81-php-fpm php81-php-cli && \
+    ln -s /usr/bin/php81 /usr/bin/php && \
     yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
 RUN yum -y install glibc.i686 libstdc++.i686 supervisor telnet expect net-tools sysvinit-tools && \
     yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
@@ -55,8 +54,8 @@ RUN yum -y install unzip p7zip p7zip-plugins curl git wget && \
 
 # Deploy the Nginx & FPM Config files
 COPY nginx-config/nginx.conf /etc/nginx/nginx.conf
-COPY nginx-config/fpm-pool.conf /etc/php-fpm.d/www.conf
-COPY nginx-config/php.ini /etc/php.d/custom.ini
+COPY nginx-config/fpm-pool.conf /etc/opt/remi/php81/php-fpm.d/www.conf
+COPY nginx-config/php.ini /etc/opt/remi/php81/php.d/custom.ini
 
 # Configure Supervisor
 RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisord\n' > /etc/supervisord.conf
