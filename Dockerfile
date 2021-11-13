@@ -12,7 +12,6 @@ VOLUME ["/data"]
 
 # Install Webtatic (PHP YUM Repo)
 RUN mkdir -p /7dtd-servermod/images
-#RUN yum -y install https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && mkdir -p /7dtd-servermod/images
 
 # Copy 7DTD ServerMod Manager Files into Place
 COPY files/* /
@@ -34,22 +33,29 @@ echo "command       = $2";\necho "startsecs     = 3";\necho "priority      = 1";
 
 # Install extra non-required things
 # RUN yum -y install vim-enhanced python rsync mlocate
-# RUN yum -y install gcc-c++ glibc.i686 libstdc++.i686
+# RUN yum -y install gcc-c++ glibc.i686 libstdc++.i686 logrotate which
 
 # Install daemon packages# Install base packages
-RUN yum -y install supervisor telnet expect unzip wget net-tools sudo git logrotate which p7zip p7zip-plugins sysvinit-tools svn cronie curl && \
-    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
-#RUN yum -y install sqlite
-#RUN yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-curl php72w-sqlite3 php72w-gd
-RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
-    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
-RUN yum -y --enablerepo=remi-php73 install http php php-common php-opcache php-pecl-mcrypt php-cli php-curl && \
+RUN yum -y install supervisor telnet expect unzip wget net-tools sudo git p7zip p7zip-plugins sysvinit-tools svn cronie curl && \
     yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
 
-RUN chmod a+x /*.sh /*.php && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
-RUN wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && \
+RUN chmod a+x /*.sh /*.php && \
+    wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && \
     tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/ && \
     rm -rf rar* rarlinux-x64-5.5.0.tar.gz
+
+#RUN yum -y install https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+#RUN yum -y install sqlite
+#RUN yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-curl php72w-sqlite3 php72w-gd
+
+#RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
+#    yum -y --enablerepo=remi-php73 install http php php-common php-opcache php-pecl-mcrypt php-cli php-curl && \
+#    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
+
+RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
+    yum install nginx php-fpm php-cli && \
+    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
+
 
 # STEAMCMD
 RUN useradd steam
