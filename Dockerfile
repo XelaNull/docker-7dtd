@@ -31,11 +31,13 @@ RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisor
 echo "autostart     = true";\necho "autorestart   = false";\necho "directory     = /";\n\
 echo "command       = $2";\necho "startsecs     = 3";\necho "priority      = 1";\n\n' > /gen_sup.sh
 
+# Install extra non-required things
+# RUN yum -y install vim-enhanced python rsync mlocate
+# RUN yum -y install gcc-c++ glibc.i686 libstdc++.i686
+
 # Install daemon packages# Install base packages
-RUN yum -y install epel-release && yum -y install supervisor vim-enhanced glibc.i686 libstdc++.i686 telnet expect unzip \
-    python wget net-tools rsync sudo git logrotate which mlocate p7zip p7zip-plugins sysvinit-tools svn cronie curl
+RUN yum -y install supervisor telnet expect unzip wget net-tools sudo git logrotate which p7zip p7zip-plugins sysvinit-tools svn cronie curl
 RUN yum -y install sqlite
-RUN yum -y gcc-c++
 RUN yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-curl php72w-sqlite3 php72w-gd
 RUN chmod a+x /*.sh /*.php && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
 RUN wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/
