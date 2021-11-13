@@ -33,10 +33,11 @@ echo "command       = $2";\necho "startsecs     = 3";\necho "priority      = 1";
 
 # Install extra non-required things
 # RUN yum -y install vim-enhanced python rsync mlocate
-# RUN yum -y install gcc-c++ glibc.i686 libstdc++.i686 logrotate which
+# RUN yum -y install gcc-c++ logrotate which
 
 # Install daemon packages# Install base packages
-RUN yum -y install epel-release && yum -y install supervisor telnet expect unzip wget net-tools sudo git p7zip p7zip-plugins sysvinit-tools svn cronie curl && \
+RUN yum -y install epel-release && yum -y install glibc.i686 libstdc++.i686 supervisor telnet expect unzip wget \
+    net-tools sudo git p7zip p7zip-plugins sysvinit-tools svn cronie curl && \
     yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
 
 RUN chmod a+x /*.sh /*.php && \
@@ -75,7 +76,7 @@ RUN useradd steam && su - steam -c "(/usr/bin/crontab -l 2>/dev/null; echo '* * 
     #    echo $'Alias "/7dtd" "/data/7DTD/html"\n<Directory "/data/7DTD">\n\tRequire all granted\n\tOptions all\n\tAllowOverride all\n</Directory>\n' > /etc/httpd/conf.d/7dtd.conf
 
     # NGINX:
-    # Remi Nginx + PHP 7.3 = 406MB
+    # Remi Nginx + PHP 7.3 = 415MB total, 75MB
     RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
         yum -y install nginx php-fpm php-cli && \
         yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
