@@ -51,9 +51,8 @@ RUN ls -l / && chmod a+x /*.sh
 RUN /gen_sup.sh crond "crond -f -l 8" >> /etc/supervisord.conf && \
     /gen_sup.sh php8-fpm "php-fpm8 -F" >> /etc/supervisord.conf && \
     /gen_sup.sh nginx "nginx -g 'daemon off;'" >> /etc/supervisord.conf && \
-    /gen_sup.sh 7dtd-servermod-daemon "/7dtd-servermod-daemon.php $INSTALL_DIR" >> /etc/supervisord.conf && \
+    /gen_sup.sh severmod-cntrl "/7dtd-servermod-daemon.php $INSTALL_DIR" >> /etc/supervisord.conf && \
     /gen_sup.sh 7dtd-daemon "/7dtd-daemon.sh" >> /etc/supervisord.conf
-
 
 # ServerMod Manager
 EXPOSE 80/tcp
@@ -66,6 +65,8 @@ EXPOSE 26900/tcp
 EXPOSE 26900/udp
 EXPOSE 26901/udp
 EXPOSE 26902/udp
+
+WORKDIR ["/data"]
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
