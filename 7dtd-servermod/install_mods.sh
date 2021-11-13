@@ -2,7 +2,6 @@
 
 export INSTALL_DIR=$1
 export MODS_DIR=$INSTALL_DIR/Mods-Available
-export USER=steam
 export MODCOUNT=0
 export MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -36,5 +35,4 @@ cd $INSTALL_DIR/7dtd-servermod
 #wget --no-cache https://raw.githubusercontent.com/XelaNull/7dtd-servermod/master/install_mods.list.cmd > /dev/null 2>&1
 chmod a+x install_mods.list.cmd && ./install_mods.list.cmd
 
-chown $USER $INSTALL_DIR -R
 echo "Applying DEFAULT MODS" && ./default_mods.sh
