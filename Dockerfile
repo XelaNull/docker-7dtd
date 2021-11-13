@@ -36,7 +36,7 @@ echo "command       = $2";\necho "startsecs     = 3";\necho "priority      = 1";
 # RUN yum -y install gcc-c++ glibc.i686 libstdc++.i686 logrotate which
 
 # Install daemon packages# Install base packages
-RUN yum -y install supervisor telnet expect unzip wget net-tools sudo git p7zip p7zip-plugins sysvinit-tools svn cronie curl && \
+RUN yum -y install epel-release && yum -y install supervisor telnet expect unzip wget net-tools sudo git p7zip p7zip-plugins sysvinit-tools svn cronie curl && \
     yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
 
 RUN chmod a+x /*.sh /*.php && \
@@ -44,37 +44,44 @@ RUN chmod a+x /*.sh /*.php && \
     tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/ && \
     rm -rf rar* rarlinux-x64-5.5.0.tar.gz
 
-#RUN yum -y install https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
-#RUN yum -y install sqlite
-#RUN yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-curl php72w-sqlite3 php72w-gd
-
-#RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
-#    yum -y --enablerepo=remi-php73 install http php php-common php-opcache php-pecl-mcrypt php-cli php-curl && \
-#    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
-
-RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
-    yum install nginx php-fpm php-cli && \
-    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
-
-
-# STEAMCMD
-RUN useradd steam
-
-# Set the Apache WEB_PORT
-# Reconfigure Apache to run under steam username, to retain ability to modify steam's files
-RUN rm -rf /etc/httpd/conf.d/welcome.conf && \
-    sed -i "s/Listen 80/Listen $WEB_PORT/g" /etc/httpd/conf/httpd.conf && \
-    sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
-    sed -i 's|Group apache|Group steam|g' /etc/httpd/conf/httpd.conf && \
-    chown steam /var/lib/php -R && \
-    chown steam:steam /var/www/html -R && \
-    echo $'Alias "/7dtd" "/data/7DTD/html"\n<Directory "/data/7DTD">\n\tRequire all granted\n\tOptions all\n\tAllowOverride all\n</Directory>\n' > /etc/httpd/conf.d/7dtd.conf
-
 # Create different supervisor entries
-RUN su - steam -c "(/usr/bin/crontab -l 2>/dev/null; echo '* * * * * /loop_start_7dtd.sh') | /usr/bin/crontab -" && \
+RUN useradd steam && su - steam -c "(/usr/bin/crontab -l 2>/dev/null; echo '* * * * * /loop_start_7dtd.sh') | /usr/bin/crontab -" && \
     /gen_sup.sh crond "/start_crond.sh" >> /etc/supervisord.conf && \
-    /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
+#    /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh 7dtd-daemon "/7dtd-daemon.php /data/7DTD" >> /etc/supervisord.conf
+
+    #RUN yum -y install sqlite
+
+    # APACHE:
+    # Webtatic Apache + PHP 7.2
+    #RUN yum -y install https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && \
+    #    yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-curl && \
+    #    /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
+    #    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
+
+    # Remi Apache + PHP 7.3
+    #RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
+    #    yum -y --enablerepo=remi-php73 install http php php-common php-opcache php-pecl-mcrypt php-cli php-curl && \
+    #    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
+
+    # Set the Apache WEB_PORT
+    # Reconfigure Apache to run under steam username, to retain ability to modify steam's files
+    #RUN rm -rf /etc/httpd/conf.d/welcome.conf && \
+    #    sed -i "s/Listen 80/Listen $WEB_PORT/g" /etc/httpd/conf/httpd.conf && \
+    #    sed -i 's|User apache|User steam|g' /etc/httpd/conf/httpd.conf && \
+    #    sed -i 's|Group apache|Group steam|g' /etc/httpd/conf/httpd.conf && \
+    #    chown steam /var/lib/php -R && \
+    #    chown steam:steam /var/www/html -R && \
+    #    echo $'Alias "/7dtd" "/data/7DTD/html"\n<Directory "/data/7DTD">\n\tRequire all granted\n\tOptions all\n\tAllowOverride all\n</Directory>\n' > /etc/httpd/conf.d/7dtd.conf
+
+    # NGINX:
+    # Remi Nginx + PHP 7.3 = 406MB
+    RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
+        yum -y install nginx php-fpm php-cli && \
+        yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
+
+
+
 
 # ServerMod Manager
 EXPOSE 80/tcp
