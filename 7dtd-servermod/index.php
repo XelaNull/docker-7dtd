@@ -373,6 +373,7 @@ $top="
   <td><p><a href=index.php?do=editFile&editFile=../7dtd.log&full=1><font size=4><b>View 7DTD Log</b></font></a></p></td>
   <td><p><a href=index.php?do=editConfig><font size=4><b>Edit Configs</b></font></a></p></td>
   <td><p><a href=index.php?smmupdate=1><font size=4><b>Update ServerMod Manager</b></font></a></p></td>
+  <td><p><a href=index.php?smmreinstall=1><font size=4><b>Reinstall ServerMod Manager</b></font></a></p></td>
 </tr>
 </table>
 ";
