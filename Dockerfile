@@ -12,6 +12,8 @@ VOLUME ["/data"]
 
 # Copy Supervisor Config Creator
 COPY files/gen_sup.sh /
+COPY files/epel.repo /etc/yum.repos.d/
+COPY files/remi-php81.repo /etc/yum.repos.d/
 
 # Copy ServerMod Manager Files into Image
 COPY 7dtd-servermod/* /7dtd-servermod/
@@ -35,11 +37,13 @@ RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/
     chmod a+x ~/.steam/steamcmd/linux32/steamcmd
 
 # Install base YUM packages required
-RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
+#RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
+#    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
+#RUN yum -y install epel-release && \
+#    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
+RUN yum -y --enablerepo=remi-php81 install nginx php81-php-fpm php81-php-cli && \
     yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
-RUN yum -y install epel-release && \
-    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
-RUN yum -y install glibc.i686 libstdc++.i686 supervisor telnet expect net-tools sysvinit-tools nginx php-fpm php-cli && \
+RUN yum -y install glibc.i686 libstdc++.i686 supervisor telnet expect net-tools sysvinit-tools && \
     yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
 
 # Install Tools to Extract Mods
