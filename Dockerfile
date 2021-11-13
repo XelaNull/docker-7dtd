@@ -3,10 +3,9 @@ FROM centos:7
 # Set the local timezone
 ENV TIMEZONE="America/New_York" \
     TELNET_PORT="8081"
-ARG TELNET_PW
-ENV TELNET_PW=$TELNET_PW
-ARG INSTALL_DIR
-ENV INSTALL_DIR=$INSTALL_DIR
+#ARG TELNET_PW
+#ENV TELNET_PW=$TELNET_PW
+ENV INSTALL_DIR=/data/7DTD
 ENV WEB_PORT=80
 
 # Install daemon packages# Install base packages
