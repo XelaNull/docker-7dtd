@@ -1,11 +1,11 @@
 #!/bin/sh
-export INSTALL_DIR=/data/7DTD
+#export INSTALL_DIR=/data/7DTD
 export LD_LIBRARY_PATH=.
 cd $INSTALL_DIR
 if [[ `ps awwux | grep -v grep | grep loop_start_7dtd | wc -l` > 2 ]]; then exit; fi
 while true; do
   if [ -f /7dtd.initialized ]; then break; fi;
-  /install_7dtd.sh 
+  /install_7dtd.sh
   sleep 6;
 done
 
