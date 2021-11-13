@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 echo "[program:$1]";
 echo "process_name  = $1";
 echo "autostart     = true";
