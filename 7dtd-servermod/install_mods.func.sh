@@ -37,7 +37,7 @@ function dropbox_download () {
   ((MODCOUNT++))
   mkdir $MODS_DIR/$MODCOUNT && cd $MODS_DIR/$MODCOUNT
   echo "Using CURL to download $1 and save as $2"
-  curl -s -L "$1" > $2 
+  curl -s -L "$1" > $2
   echo "$1" > $MODS_DIR/$MODCOUNT/ModURL.txt
   [[ "$3" == "extract_file" ]] && extract_file $2
   cd $MODS_DIR
@@ -49,7 +49,7 @@ function wget_download () {
   wget -O $2 "$1" > /dev/null 2>&1
   echo "$1" > $MODS_DIR/$MODCOUNT/ModURL.txt
   [[ "$3" == "extract_file" ]] && extract_file $2
-  cd $MODS_DIR 
+  cd $MODS_DIR
 }
 function extract_file () {
   filename=$1

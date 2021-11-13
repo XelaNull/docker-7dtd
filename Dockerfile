@@ -19,9 +19,7 @@ COPY files/epel.repo /etc/yum.repos.d/
 COPY files/remi-safe.repo /etc/yum.repos.d/
 
 # Copy ServerMod Manager Files into Image
-COPY 7dtd-servermod/* /7dtd-servermod/
-COPY 7dtd-servermod/files/* /
-COPY 7dtd-servermod/images/* /7dtd-servermod/images/
+RUN cd / && git clone https://github.com/XelaNull/docker-7dtd.git
 
 # Copy Steam files from builder
 COPY --from=builder /usr/lib/games/steam/steamcmd.sh /usr/lib/games/steam/

@@ -1,13 +1,13 @@
-<?php 
-
+<?php
+include "vars.inc.php";
 include "modmgr.inc.php";
 include "servercontrol.inc.php";
 
 session_start();
 
 // Pull the server's telnet password.
-$server_password=exec("grep -i TelnetPassword /data/7DTD/serverconfig.xml | cut -d= -f3 | cut -d'\"' -f2");
-if($_POST['Password']!='' && $_POST['Submit']!='' && $server_password==$_POST['Password']) 
+$server_password=exec("grep -i TelnetPassword $INSTALL_DIR/serverconfig.xml | cut -d= -f3 | cut -d'\"' -f2");
+if($_POST['Password']!='' && $_POST['Submit']!='' && $server_password==$_POST['Password'])
   { $_SESSION['password']=$_POST['Password']; setcookie('password',$_POST['Password']); }
 // If there is not a PHP session saved with a good password in it to match the telnet password, then we should bomb out to the login page
 if($_COOKIE['password']!=$server_password && $_SESSION['password']!=$server_password)
@@ -17,7 +17,7 @@ if($_COOKIE['password']!=$server_password && $_SESSION['password']!=$server_pass
   <input type=password name=Password autofocus><br><br>
   <input type=Submit value=Login name=Submit>
   </form>";
-  mainscreen("<center><h3><img src=7dtd_logo.png width=260><br><b>SERVERMOD MANAGER</b></h3>".$main, '');
+  mainscreen("<center><h3><img src=images/7dtd_logo.png width=260><br><b>SERVERMOD MANAGER</b></h3>".$main, '');
   exit;
   }
 
@@ -31,16 +31,16 @@ switch(@$_GET['do'])
   // The default page to show should be the Active/Deactivate Modlets page (aka the Mod Manager/ModMgr)
   default:
   case "modmgr":
-  $main="<h3>Activate/Deactivate Modlets</h3>Select the Modlets that you would like to enable by simple checking the box next to it. 
+  $main="<h3>Activate/Deactivate Modlets</h3>Select the Modlets that you would like to enable by simple checking the box next to it.
   You will need to stop and start your server for any changes to this list to activate.<br>".SDD_ModMgr();
   break;
-  
+
   // The server status sub-page
   case "serverstatus": servercontrol(); exit; break;
-  
+
   case "editConfig":
   $main.="<form method=post><table>";
-  
+
   $configArray=file("../serverconfig.xml");
   foreach($configArray as $line)
     {
@@ -62,7 +62,7 @@ switch(@$_GET['do'])
         {
           //$main.="LINE: ".htmlentities($line)."<br>";
           if($Value!='false' && $Value!='true')$main.="<tr><td><b>$Name:</b></td><td><input type=text value=\"$Value\" size=".strlen($Value)."></td></tr>";
-          else 
+          else
             {
                 $main.="<tr><td><b>$Name</b></td><td><SELECT NAME=\"$Name\"><OPTION ";
                 if($Value=='true') $main.="checked ";
@@ -113,7 +113,7 @@ function readConfigValue($SearchName)
           $endValuePos=strpos($line, '"', $valuePos);
           $Value=substr($line,$valuePos, ($endValuePos-$valuePos));
         }
-        
+
       if($Name==$SearchName && $Value!='') return($Value);
     }
 }
@@ -152,7 +152,7 @@ function mainscreen($top, $main)
     	border-collapse: collapse;
     	border-bottom: #ccc 2px solid;
     	padding: 0;
-      font: 16px Arial, Sans-serif;      
+      font: 16px Arial, Sans-serif;
     }
     .tablesorter-default thead td {
     	font-weight: bold;
@@ -333,9 +333,9 @@ function mainscreen($top, $main)
     	background-color: #e6bf99;
     }
 
-    </style> 
-     
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+    </style>
+
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.9.1/jquery.tablesorter.min.js"></script>
 
     <script>
@@ -345,7 +345,7 @@ function mainscreen($top, $main)
        sortList : [[1,0]]
        });
     });
-      
+
     </script>
   </head>
 <body>
@@ -362,13 +362,13 @@ function top_row()
 $top="
 <table cellspacing=0 cellpadding=3 width=100% border=0>
 <tr>
-  <td rowspan=2 width=280><a href=index.php><img src=7dtd_logo.png width=260 border=0></a></td>
+  <td rowspan=2 width=280><a href=index.php><img src=images/7dtd_logo.png width=260 border=0></a></td>
 
   <td colspan=4 height=50><b><font size=5>".readConfigValue('ServerName')."</font></b><br>
   <iframe src=index.php?do=serverstatus width=300 height=60 frameborder=2 scrolling=no></iframe>
   </td>
 </tr>
-<tr>  
+<tr>
   <td><p><a href=index.php?do=modmgr><font size=4><b>Enable/Disable Modlets</b></font></a></p></td>
   <td><p><a href=index.php?do=editFile&editFile=../7dtd.log&full=1><font size=4><b>View 7DTD Log</b></font></a></p></td>
   <td><p><a href=index.php?do=editConfig><font size=4><b>Edit Configs</b></font></a></p></td>

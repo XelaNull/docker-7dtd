@@ -1,16 +1,16 @@
-<?php 
+<?php
 function servercontrol() {
   $savedCommand=file("/data/7DTD/server.expected_status");
-  $savedCommand=trim($savedCommand[0]);  
-  
+  $savedCommand=trim($savedCommand[0]);
+
   // Determine if the 7DTD Server is STARTED or STOPPED
   $SERVER_PID=exec("ps awwux | grep 7DaysToDieServer | grep -v sudo | grep -v grep");
-  if(strlen($SERVER_PID)>2) 
+  if(strlen($SERVER_PID)>2)
     {
       $server_started=str_replace("\n","",exec("grep 'GameServer.Init successful' /data/7DTD/7dtd.log | wc -l"));
-      if($server_started==1) 
+      if($server_started==1)
         {
-          $status="STARTED";   
+          $status="STARTED";
           // Print how many WRN and ERR there were, if the $status=STARTED
           $WRN=exec("grep WRN /data/7DTD/7dtd.log | wc -l");
           $ERR=exec("grep ERR /data/7DTD/7dtd.log | wc -l");
@@ -19,20 +19,20 @@ function servercontrol() {
       else $status="STARTING";
     }
   else $status="STOPPED";
-/*  
+/*
   echo "GET-CONTROL: $_GET[control]<br>";
   echo "savedCommand: $savedCommand<br>";
 */
-  
+
   if(@$_GET['control']!='')
     {
-      if($_GET['control']=='FORCE_STOP'/* && ($savedCommand=='stop' || $savedCommand=='')*/) 
+      if($_GET['control']=='FORCE_STOP'/* && ($savedCommand=='stop' || $savedCommand=='')*/)
         { exec("echo 'force_stop' > /data/7DTD/server.expected_status"); $status="FORCEFUL STOPPING"; }
-    
+
       if($_GET['control']=='STOP') { exec("/stop_7dtd.sh &"); $status="STOPPING"; }
-    
-      if($_GET['control']=='START') 
-        { exec("/start_7dtd.sh &"); $status="STARTING"; $status_link="<a href=?do=serverstatus&control=FORCE_STOP><img border=0 width=40 src=force-stop.png></a>"; }
+
+      if($_GET['control']=='START')
+        { exec("/start_7dtd.sh &"); $status="STARTING"; $status_link="<a href=?do=serverstatus&control=FORCE_STOP><img border=0 width=40 src=images/force-stop.png></a>"; }
       $serverStatus=$status;
     }
   else
@@ -42,30 +42,30 @@ function servercontrol() {
       switch($status)
       {
         case "STARTED":
-          if($savedCommand!='stop') $status_link="<a href=?do=serverstatus&control=STOP><img border=0 width=40 src=stop.jpg></a>";
-          else $status_link="<a href=?do=serverstatus&control=FORCE_STOP><img border=0 width=40 src=force-stop.png></a>";
+          if($savedCommand!='stop') $status_link="<a href=?do=serverstatus&control=STOP><img border=0 width=40 src=images/stop.jpg></a>";
+          else $status_link="<a href=?do=serverstatus&control=FORCE_STOP><img border=0 width=40 src=images/force-stop.png></a>";
         break;
-        case "STARTING": $status_link="<a href=?do=serverstatus&control=FORCE_STOP><img border=0 width=40 src=force-stop.png></a>"; break;
-        case "STOPPED": $status_link="<a href=?do=serverstatus&control=START><img border=0 width=40 src=start.png></a>"; break;
+        case "STARTING": $status_link="<a href=?do=serverstatus&control=FORCE_STOP><img border=0 width=40 src=images/force-stop.png></a>"; break;
+        case "STOPPED": $status_link="<a href=?do=serverstatus&control=START><img border=0 width=40 src=images/start.png></a>"; break;
       }
     }
 
-  
+
 $rtn="
 <html>
 <head>
   <script type = \"text/JavaScript\">
     <!--
-    function AutoRefresh( t ) { setTimeout(\"window.location.replace('http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT']."/7dtd/index.php?do=serverstatus')\", t); }  
+    function AutoRefresh( t ) { setTimeout(\"window.location.replace('http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT']."/7dtd/index.php?do=serverstatus')\", t); }
     //-->
-  </script>    
+  </script>
   <style type=\"text/css\">
   body, td {
     font: 12px Arial, Sans-serif;
     margin: 2px;
   }
   </style>
-</head> 
+</head>
 <body onload = \"JavaScript:AutoRefresh(5000);\" BGCOLOR=\"#525252\" TEXT=white>
 <table cellspacing=0 cellpadding=0 width=280>
   <tr>

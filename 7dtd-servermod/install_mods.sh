@@ -13,16 +13,17 @@ fi
 
 # Install the Server & Mod-Management PHP Portal
 [[ ! -d $INSTALL_DIR/html ]] && mkdir $INSTALL_DIR/html
+[[ ! -d $INSTALL_DIR/html/images ]] && mkdir $INSTALL_DIR/html/images
 [[ -f $INSTALL_DIR/html/index.php ]] || ln -s $INSTALL_DIR/7dtd-servermod/index.php $INSTALL_DIR/html/index.php
 [[ -f $INSTALL_DIR/html/modmgr.inc.php ]] || ln -s $INSTALL_DIR/7dtd-servermod/modmgr.inc.php $INSTALL_DIR/html/modmgr.inc.php
 [[ -f $INSTALL_DIR/html/servercontrol.inc.php ]] || ln -s $INSTALL_DIR/7dtd-servermod/servercontrol.inc.php $INSTALL_DIR/html/servercontrol.inc.php
-[[ -f $INSTALL_DIR/html/7dtd_logo.png ]] || ln -s $INSTALL_DIR/7dtd-servermod/7dtd_logo.png $INSTALL_DIR/html/7dtd_logo.png
-[[ -f $INSTALL_DIR/html/update.png ]] || ln -s $INSTALL_DIR/7dtd-servermod/update.png $INSTALL_DIR/html/update.png
-[[ -f $INSTALL_DIR/html/zombie-hand.png ]] || ln -s $INSTALL_DIR/7dtd-servermod/zombie-hand.png $INSTALL_DIR/html/zombie-hand.png
-[[ -f $INSTALL_DIR/html/direct-download.png ]] || ln -s $INSTALL_DIR/7dtd-servermod/direct-download.png $INSTALL_DIR/html/direct-download.png
-[[ -f $INSTALL_DIR/html/start.png ]] || ln -s $INSTALL_DIR/7dtd-servermod/start.png $INSTALL_DIR/html/start.png
-[[ -f $INSTALL_DIR/html/stop.jpg ]] || ln -s $INSTALL_DIR/7dtd-servermod/stop.jpg $INSTALL_DIR/html/stop.jpg
-[[ -f $INSTALL_DIR/html/force-stop.png ]] || ln -s $INSTALL_DIR/7dtd-servermod/force-stop.png $INSTALL_DIR/html/force-stop.png
+[[ -f $INSTALL_DIR/html/images/7dtd_logo.png ]] || ln -s $INSTALL_DIR/7dtd-servermod/images/7dtd_logo.png $INSTALL_DIR/html/images/7dtd_logo.png
+[[ -f $INSTALL_DIR/html/images/update.png ]] || ln -s $INSTALL_DIR/7dtd-servermod/images/update.png $INSTALL_DIR/html/images/update.png
+[[ -f $INSTALL_DIR/html/images/zombie-hand.png ]] || ln -s $INSTALL_DIR/7dtd-servermod/images/zombie-hand.png $INSTALL_DIR/html/images/zombie-hand.png
+[[ -f $INSTALL_DIR/html/images/direct-download.png ]] || ln -s $INSTALL_DIR/7dtd-servermod/images/direct-download.png $INSTALL_DIR/html/images/direct-download.png
+[[ -f $INSTALL_DIR/html/images/start.png ]] || ln -s $INSTALL_DIR/7dtd-servermod/images/start.png $INSTALL_DIR/html/images/start.png
+[[ -f $INSTALL_DIR/html/images/stop.jpg ]] || ln -s $INSTALL_DIR/7dtd-servermod/images/stop.jpg $INSTALL_DIR/html/images/stop.jpg
+[[ -f $INSTALL_DIR/html/images/force-stop.png ]] || ln -s $INSTALL_DIR/7dtd-servermod/images/force-stop.png $INSTALL_DIR/html/images/force-stop.png
 
 # Creating "Mods-Available" folder
 echo "Creating the Mods-Available directory for mod/modlet installation..."

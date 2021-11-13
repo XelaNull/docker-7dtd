@@ -30,8 +30,9 @@ while true; do
 
   # Install all the mods that go along with the 7DTD ServerMod Manager
   cd $INSTALL_DIR
-  ln -s /7dtd-servermod 7dtd-servermod
+  ln -s /docker-7dtd/7dtd-servermod 7dtd-servermod
   cd 7dtd-servermod
+  echo "<?php\n\$INSTALL_DIR=\"$INSTALL_DIR\";\n?>" > vars.inc.php
   ./install_mods.sh $INSTALL_DIR
 
   #chown steam:steam $INSTALL_DIR /home/steam -R
