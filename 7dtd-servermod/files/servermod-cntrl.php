@@ -6,22 +6,22 @@ Used to start/stop the server software or autoreveal.
 This daemon is meant to run-once and then look for touch files to determine if any action is needed.
 
 Syntax:
-./7dtd-servermod-daemon.php <absolute_path_to_7dtd_game_install_directory>
+./servermod-cntrl.php <absolute_path_to_7dtd_game_install_directory>
 
 Touchfiles that this daemon uses:
  - server.expected_status, possible values: start,stop,restart,force_stop
 */
 
 // Error out if we were not provided a valid directory path
-if(!is_dir(@$argv[1])) { echo "Invalid installation directory provided.\nSyntax: ./7dtd-servermod-daemon.php <absolute_path_to_7dtd_game_install_directory>\n"; exit; }
+if(!is_dir(@$argv[1])) { echo "Invalid installation directory provided.\nSyntax: ./servermod-cntrl.php <absolute_path_to_7dtd_game_install_directory>\n"; exit; }
 
 // Set the installation directory variable
 $INSTALL_DIR=$argv[1];
 
 do {
- echo "$INSTALL_DIR doesn't exist yet. Sleeping for 30 seconds."
- sleep 30;
-} while (!is_dir($INSTALL_DIR))
+ echo "$INSTALL_DIR doesn't exist yet. Sleeping for 30 seconds.";
+ sleep(30);
+} while (!is_dir($INSTALL_DIR));
 
 // Loop until Infinity
 while (1) {

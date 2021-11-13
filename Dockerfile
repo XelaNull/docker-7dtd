@@ -1,7 +1,12 @@
-FROM steamcmd/steamcmd:alpine as builder
-FROM alpine:latest
-
+# CentOS7 Minimal
+FROM centos:7
+# Set the local timezone
+ENV TIMEZONE="America/New_York" \
+    TELNET_PORT="8081"
+#ARG TELNET_PW
+#ENV TELNET_PW=$TELNET_PW
 ENV INSTALL_DIR=/data/7DTD
+ENV WEB_PORT=80
 
 VOLUME ["/data"]
 
@@ -13,46 +18,35 @@ COPY 7dtd-servermod/* /7dtd-servermod/
 COPY 7dtd-servermod/files/* /
 COPY 7dtd-servermod/images/* /7dtd-servermod/images/
 
-# Copy Nginx & PHP Files into Image
-COPY nginx-config/nginx.conf /etc/nginx/nginx.conf
-COPY nginx-config/fpm-pool.conf /etc/php8/php-fpm.d/www.conf
-COPY nginx-config/php.ini /etc/php8/conf.d/custom.ini
-
-RUN apk add --no-cache busybox-extras expect wget net-tools sudo git subversion \
-    p7zip unrar unzip supervisor nginx php8 php8-fpm php8-cli curl bash && \
-    ln -s /usr/bin/php8 /usr/bin/php
-
-# Copy steamcmd files from builder
-COPY --from=builder /usr/lib/games/steam/steamcmd.sh /usr/lib/games/steam/
-COPY --from=builder /usr/lib/games/steam/steamcmd /usr/lib/games/steam/
-COPY --from=builder /usr/bin/steamcmd /usr/bin/steamcmd
-
-# Copy required files from builder
-COPY --from=builder /etc/ssl/certs /etc/ssl/certs
-COPY --from=builder /lib /lib/
-
-# Set up Steam working directories
-RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/common ~/.steam/steamcmd/linux32 && \
-    ln -s ~/.steam ~/.steam/root && \
-    ln -s ~/.steam ~/.steam/steam && \
-    cp -p /usr/lib/games/steam/steamcmd.sh ~/.steam/steamcmd/ && \
-    cp -p /usr/lib/games/steam/steamcmd ~/.steam/steamcmd/linux32/ && \
-    chmod a+x ~/.steam/steamcmd/steamcmd.sh && \
-    chmod a+x ~/.steam/steamcmd/linux32/steamcmd
-
-#RUN echo "*    *       *       *       *       run-parts /etc/periodic/1min" >> /etc/crontabs/root && \
-#    mkdir /etc/periodic/1min && \
-#    echo "/loop_start_7dtd.sh" > /etc/periodic/1min/loop_wrapper.sh && \
-#    chmod a+x /etc/periodic/1min/loop_wrapper.sh
-
+# Create beginning of supervisord.conf file
 RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisord\n' > /etc/supervisord.conf
 
-RUN ls -l / && chmod a+x /*.sh
-RUN /gen_sup.sh crond "crond -f -l 8" >> /etc/supervisord.conf && \
-    /gen_sup.sh php8-fpm "php-fpm8 -F" >> /etc/supervisord.conf && \
-    /gen_sup.sh nginx "nginx -g 'daemon off;'" >> /etc/supervisord.conf && \
-    /gen_sup.sh severmod-cntrl "/7dtd-servermod-daemon.php $INSTALL_DIR" >> /etc/supervisord.conf && \
-    /gen_sup.sh 7dtd-daemon "/7dtd-daemon.sh" >> /etc/supervisord.conf
+# Install base YUM packages required
+RUN yum -y install epel-release && yum -y install glibc.i686 libstdc++.i686 supervisor telnet expect unzip wget \
+    net-tools git p7zip p7zip-plugins sysvinit-tools svn curl && \
+    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
+
+# Install Unrar
+RUN chmod a+x /*.sh /*.php && \
+    wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && \
+    tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/ && \
+    rm -rf rar* rarlinux-x64-5.5.0.tar.gz
+
+
+# NGINX:
+# Remi Nginx + PHP 7.3 = 457MB total, 75MB
+RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
+    yum -y install nginx php-fpm php-cli && \
+    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
+
+COPY nginx-config/nginx.conf /etc/nginx/nginx.conf
+COPY nginx-config/fpm-pool.conf /etc/php-fpm.d/www.conf
+COPY nginx-config/php.ini /etc/php.d/custom.ini
+
+RUN /gen_sup.sh php8-fpm "php-fpm -F" >> /etc/supervisord.conf && \
+    /gen_sup.sh nginx "nginx -g 'daemon off;'" >> /etc/supervisord.conf
+#    /gen_sup.sh severmod-cntrl "/servermod-cntrl.php $INSTALL_DIR" >> /etc/supervisord.conf && \
+#    /gen_sup.sh 7dtd-daemon "/7dtd-daemon.sh" >> /etc/supervisord.conf
 
 # ServerMod Manager
 EXPOSE 80/tcp
@@ -66,8 +60,7 @@ EXPOSE 26900/udp
 EXPOSE 26901/udp
 EXPOSE 26902/udp
 
-WORKDIR ["/data"]
-
+# Set to start the supervisor daemon on bootup
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
 HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:80/fpm-ping
