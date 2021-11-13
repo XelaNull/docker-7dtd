@@ -37,14 +37,19 @@ echo "command       = $2";\necho "startsecs     = 3";\necho "priority      = 1";
 # RUN yum -y install gcc-c++ glibc.i686 libstdc++.i686
 
 # Install daemon packages# Install base packages
-RUN yum -y install supervisor telnet expect unzip wget net-tools sudo git logrotate which p7zip p7zip-plugins sysvinit-tools svn cronie curl
+RUN yum -y install supervisor telnet expect unzip wget net-tools sudo git logrotate which p7zip p7zip-plugins sysvinit-tools svn cronie curl && \
+    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
 #RUN yum -y install sqlite
 #RUN yum -y install php72w-cli httpd mod_php72w php72w-opcache php72w-curl php72w-sqlite3 php72w-gd
-RUN yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
-RUN yum --enablerepo=remi-php73 install http php php-common php-opcache php-mcrypt php-cli php-curl
+RUN yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
+    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
+RUN yum -y --enablerepo=remi-php73 install http php php-common php-opcache php-pecl-mcrypt php-cli php-curl && \
+    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
 
 RUN chmod a+x /*.sh /*.php && yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
-RUN wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/
+RUN wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && \
+    tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/ && \
+    rm -rf rar* rarlinux-x64-5.5.0.tar.gz
 
 # STEAMCMD
 RUN useradd steam
