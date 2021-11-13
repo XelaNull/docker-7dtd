@@ -6,14 +6,14 @@ Used to start/stop the server software or autoreveal.
 This daemon is meant to run-once and then look for touch files to determine if any action is needed.
 
 Syntax:
-./7dtd-daemon.php <absolute_path_to_7dtd_game_install_directory>
+./7dtd-servermod-daemon.php <absolute_path_to_7dtd_game_install_directory>
 
 Touchfiles that this daemon uses:
  - server.expected_status, possible values: start,stop,restart,force_stop
 */
 
 // Error out if we were not provided a valid directory path
-if(!is_dir(@$argv[1])) { echo "Invalid installation directory provided.\nSyntax: ./7dtd-daemon.php <absolute_path_to_7dtd_game_install_directory>\n"; exit; }
+if(!is_dir(@$argv[1])) { echo "Invalid installation directory provided.\nSyntax: ./7dtd-servermod-daemon.php <absolute_path_to_7dtd_game_install_directory>\n"; exit; }
 
 // Set the installation directory variable
 $INSTALL_DIR=$argv[1];
@@ -23,7 +23,7 @@ while (1) {
 // ####### MAIN BLOCK OF CODE ######## //
 
 # Set default on the three touch files, if they don't already exist
-if(!is_file($INSTALL_DIR.'/server.expected_status')) { file_put_contents($INSTALL_DIR.'/server.expected_status','start'); chown($INSTALL_DIR.'/server.expected_status','steam'); }
+if(!is_file($INSTALL_DIR.'/server.expected_status')) file_put_contents($INSTALL_DIR.'/server.expected_status','start');
 
 // Read in the current values of the three touch files
 $server_expected_status = trim(file_get_contents($INSTALL_DIR.'/server.expected_status'));

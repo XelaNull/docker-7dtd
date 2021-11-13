@@ -9,7 +9,7 @@ if [[ ! -d $INSTALL_DIR ]]; then mkdir -p $INSTALL_DIR; fi
 cd $INSTALL_DIR
 
 # Make sure this script isn't hung from a previous instantiation.
-if [[ `ps awwux | grep -v grep | grep loop_start_7dtd | wc -l` > 2 ]]; then exit; fi
+if [[ `ps awwux | grep -v grep | grep 7dtd-daemon | wc -l` > 2 ]]; then exit; fi
 # Install 7DTD gameserver, if it isn't already installed.
 while true; do
   if [ -f /7dtd.initialized ]; then break; fi;

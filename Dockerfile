@@ -5,6 +5,9 @@ ENV INSTALL_DIR=/data/7DTD
 
 VOLUME ["/data"]
 
+# Copy Supervisor Config Creator
+COPY files/gen_sup.sh /
+
 # Copy ServerMod Manager Files into Image
 COPY 7dtd-servermod/* /7dtd-servermod/
 COPY 7dtd-servermod/files/* /
@@ -37,10 +40,10 @@ RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/
     chmod a+x ~/.steam/steamcmd/steamcmd.sh && \
     chmod a+x ~/.steam/steamcmd/linux32/steamcmd
 
-RUN echo "*    *       *       *       *       run-parts /etc/periodic/1min" >> /etc/crontabs/root && \
-    mkdir /etc/periodic/1min && \
-    echo "/loop_start_7dtd.sh" > /etc/periodic/1min/loop_wrapper.sh && \
-    chmod a+x /etc/periodic/1min/loop_wrapper.sh
+#RUN echo "*    *       *       *       *       run-parts /etc/periodic/1min" >> /etc/crontabs/root && \
+#    mkdir /etc/periodic/1min && \
+#    echo "/loop_start_7dtd.sh" > /etc/periodic/1min/loop_wrapper.sh && \
+#    chmod a+x /etc/periodic/1min/loop_wrapper.sh
 
 RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisord\n' > /etc/supervisord.conf
 
@@ -48,7 +51,8 @@ RUN ls -l / && chmod a+x /*.sh
 RUN /gen_sup.sh crond "crond -f -l 8" >> /etc/supervisord.conf && \
     /gen_sup.sh php8-fpm "php-fpm8 -F" >> /etc/supervisord.conf && \
     /gen_sup.sh nginx "nginx -g 'daemon off;'" >> /etc/supervisord.conf && \
-    /gen_sup.sh 7dtd-daemon "/7dtd-daemon.php /data/7DTD" >> /etc/supervisord.conf
+    /gen_sup.sh 7dtd-servermod-daemon "/7dtd-servermod-daemon.php $INSTALL_DIR" >> /etc/supervisord.conf && \
+    /gen_sup.sh 7dtd-daemon "/7dtd-daemon.sh" >> /etc/supervisord.conf
 
 
 # ServerMod Manager
