@@ -28,7 +28,9 @@ touch /7dtd.initialized;
 #/install_servermodmgr.sh
 
 # Install all the mods that go along with the 7DTD ServerMod Manager
-cd $INSTALL_DIR/7dtd-servermod
+cd $INSTALL_DIR
+ln -s /7dtd-servermod 7dtd-servermod
+cd 7dtd-servermod
 ./install_mods.sh $INSTALL_DIR
 
 chown steam:steam $INSTALL_DIR /home/steam -R

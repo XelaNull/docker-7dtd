@@ -8,13 +8,15 @@ ENV TIMEZONE="America/New_York" \
 ENV INSTALL_DIR=/data/7DTD
 ENV WEB_PORT=80
 
+VOLUME ["/data"]
+
 # Install Webtatic (PHP YUM Repo)
-RUN yum -y localinstall https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && mkdir -p /data/7dtd-servermod/images
+RUN yum -y localinstall https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && mkdir -p /7dtd-servermod/images
 
 # Copy 7DTD ServerMod Manager Files into Place
 COPY files/* /
-COPY 7dtd-servermod/* /data/7dtd-servermod/
-COPY 7dtd-servermod/images/* /data/7dtd-servermod/images/
+COPY servermod/* /7dtd-servermod/
+COPY servermod/images/* /7dtd-servermod/images/
 
 # Create beginning of supervisord.conf file
 RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisord\n' > /etc/supervisord.conf && \
@@ -64,8 +66,6 @@ RUN su - steam -c "(/usr/bin/crontab -l 2>/dev/null; echo '* * * * * /loop_start
     /gen_sup.sh crond "/start_crond.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh httpd "/start_httpd.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh 7dtd-daemon "/7dtd-daemon.php /data/7DTD" >> /etc/supervisord.conf
-
-VOLUME ["/data"]
 
 # ServerMod Manager
 EXPOSE 80/tcp
