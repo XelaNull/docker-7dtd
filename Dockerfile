@@ -9,11 +9,12 @@ ENV INSTALL_DIR=/data/7DTD
 ENV WEB_PORT=80
 
 # Install Webtatic (PHP YUM Repo)
-RUN yum -y localinstall https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+RUN yum -y localinstall https://mirror.webtatic.com/yum/el7/webtatic-release.rpm && mkdir -p /data/7dtd-servermod/images
 
 # Copy 7DTD ServerMod Manager Files into Place
 COPY files/* /
-COPY 7dtd-servermod/* /data/7DTD/7dtd-servermod/
+COPY 7dtd-servermod/* /data/7dtd-servermod/
+COPY 7dtd-servermod/images/* /data/7dtd-servermod/images/
 
 # Create beginning of supervisord.conf file
 RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisord\n' > /etc/supervisord.conf && \
