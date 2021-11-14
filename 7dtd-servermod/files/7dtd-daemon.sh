@@ -37,8 +37,8 @@ while true; do
   echo "<?php
 \$INSTALL_DIR=\"$INSTALL_DIR\";
 ?>" > $INSTALL_DIR/html/vars.inc.php
-  [[ ! -f $INSTALL_DIR/server.expected_status ]] && touch("$INSTALL_DIR/server.expected_status");
-  exec("chown nobody $INSTALL_DIR/server.expected_status")
+  [[ ! -f $INSTALL_DIR/server.expected_status ]] && touch $INSTALL_DIR/server.expected_status;
+  chown nobody $INSTALL_DIR/server.expected_status
   ./install_mods.sh $INSTALL_DIR
 
   #chown steam:steam $INSTALL_DIR /home/steam -R
