@@ -36,12 +36,9 @@ $server_expected_status = trim(file_get_contents($INSTALL_DIR.'/server.expected_
 // If 7DTD Server is installed, Switch for server expected_status
 if(is_file($INSTALL_DIR.'/7DaysToDieServer.x86_64')) switch($server_expected_status)
   {
-    case "reload_servermodmanager":
-    exec("cd /docker-7dtd; git pull origin master;");
-    break;
-
     case "reinstall_servermodmanager":
     exec("cd /; rm -rf docker-7dtd; git clone https://github.com/XelaNull/docker-7dtd.git; cd $INSTALL_DIR; ./install_mods.sh $INSTALL_DIR");
+    file_put_contents($INSTALL_DIR.'/server.expected_status','start'); // Set this script to start the server back up
     break;
 
     case "restart":
