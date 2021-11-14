@@ -50,7 +50,7 @@ function disable_mod($INSTALL_DIR, $MOD_DIR_PATH)
   $ModName=$name_Pieces[$name_Position];
   if(is_dir("$INSTALL_DIR/Mods/$ModName"))
     {
-      //echo "REMOVING SYMLINK: $INSTALL_DIR/Mods/$ModName";
+      echo "REMOVING SYMLINK: $INSTALL_DIR/Mods/$ModName";
       unlink("$INSTALL_DIR/Mods/$ModName");
     }
 }
