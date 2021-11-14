@@ -44,16 +44,16 @@ if [[ $new_line == "" ]]; then
 fi
 
 # Make sure that the delimeter we are using in the grep command next is not present in any of the strings
-if [[ $found_line == *"^"* ]] || [[ $new_line == *"^"* ]]; then
+if [[ $found_line != *"^"* ]] && [[ $new_line != *"^"* ]]; then
   # Perform string search and perform an in-line replacement of the entire line
   sed -i "s^.*$found_line.*^$new_line^" $1
-elif [[ $found_line == *"|"* ]] || [[ $new_line == *"|"* ]]; then
+elif [[ $found_line != *"|"* ]] && [[ $new_line != *"|"* ]]; then
   # Perform string search and perform an in-line replacement of the entire line
   sed -i "s|.*$found_line.*|$new_line|" $1
-elif [[ $found_line == *"~"* ]] || [[ $new_line == *"~"* ]]; then
+elif [[ $found_line != *"~"* ]] && [[ $new_line != *"~"* ]]; then
   # Perform string search and perform an in-line replacement of the entire line
   sed -i "s~.*$found_line.*~$new_line~" $1
-elif [[ $found_line == *"_"* ]] || [[ $new_line == *"_"* ]]; then
+elif [[ $found_line != *"_"* ]] && [[ $new_line != *"_"* ]]; then
   # Perform string search and perform an in-line replacement of the entire line
   sed -i "s_.*$found_line.*_$new_line_" $1
 else
