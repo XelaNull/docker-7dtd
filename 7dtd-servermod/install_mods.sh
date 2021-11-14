@@ -14,6 +14,8 @@ fi
 # Install the Server & Mod-Management PHP Portal
 [[ ! -d $INSTALL_DIR/html ]] && mkdir $INSTALL_DIR/html
 [[ ! -d $INSTALL_DIR/html/images ]] && mkdir $INSTALL_DIR/html/images
+
+[[ -L $INSTALL_DIR/html/index.php ]] || rm $INSTALL_DIR/html/index.php
 [[ -f $INSTALL_DIR/html/index.php ]] || ln -s $INSTALL_DIR/7dtd-servermod/index.php $INSTALL_DIR/html/index.php
 [[ -f $INSTALL_DIR/html/modmgr.inc.php ]] || ln -s $INSTALL_DIR/7dtd-servermod/modmgr.inc.php $INSTALL_DIR/html/modmgr.inc.php
 [[ -f $INSTALL_DIR/html/servercontrol.inc.php ]] || ln -s $INSTALL_DIR/7dtd-servermod/servercontrol.inc.php $INSTALL_DIR/html/servercontrol.inc.php

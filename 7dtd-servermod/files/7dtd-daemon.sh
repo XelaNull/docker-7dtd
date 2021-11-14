@@ -14,6 +14,8 @@ if [[ `ps awwux | grep -v grep | grep 7dtd-daemon | wc -l` > 2 ]]; then exit; fi
 while true; do
   if [ -f /7dtd.initialized ]; then break; fi;
 
+  echo "<html><head> <meta http-equiv=\"refresh\" content=\"30\" /></head><body>7DaysToDie is currently installing in the background.</body></html>" > $INSTALL_DIR/html/index.php
+
   # Set up the installation directory
   [[ ! -d $INSTALL_DIR/.local ]] && mkdir -p $INSTALL_DIR/.local;
   [[ ! -d $INSTALL_DIR/Mods ]] && mkdir -p $INSTALL_DIR/Mods;
