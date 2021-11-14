@@ -34,7 +34,11 @@ while true; do
   cd $INSTALL_DIR
   ln -s /docker-7dtd/7dtd-servermod 7dtd-servermod
   cd 7dtd-servermod
-  echo "<?php\n\$INSTALL_DIR=\"$INSTALL_DIR\";\n?>" > vars.inc.php
+  echo "<?php
+\$INSTALL_DIR=\"$INSTALL_DIR\";
+?>" > $INSTALL_DIR/html/vars.inc.php
+  [[ ! -f $INSTALL_DIR/server.expected_status ]] && touch("$INSTALL_DIR/server.expected_status");
+  exec("chown nobody $INSTALL_DIR/server.expected_status")
   ./install_mods.sh $INSTALL_DIR
 
   #chown steam:steam $INSTALL_DIR /home/steam -R
