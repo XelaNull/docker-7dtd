@@ -13,7 +13,7 @@ Touchfiles that this daemon uses:
 */
 
 // Error out if we were not provided a valid directory path
-if(!is_dir(@$argv[1])) { echo "Invalid installation directory provided.\nSyntax: ./servermod-cntrl.php <absolute_path_to_7dtd_game_install_directory>\n"; exit; }
+//if(!is_dir(@$argv[1])) { echo "Invalid installation directory provided.\nSyntax: ./servermod-cntrl.php <absolute_path_to_7dtd_game_install_directory>\n"; exit; }
 
 // Set the installation directory variable
 $INSTALL_DIR=$argv[1];
