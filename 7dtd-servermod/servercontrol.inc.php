@@ -21,10 +21,7 @@ function servercontrol() {
       else $status="STARTING";
     }
   else $status="STOPPED";
-/*
-  echo "GET-CONTROL: $_GET[control]<br>";
-  echo "savedCommand: $savedCommand<br>";
-*/
+
 
   if(@$_GET['control']!='')
     {

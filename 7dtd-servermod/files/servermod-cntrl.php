@@ -37,9 +37,8 @@ $server_expected_status = trim(file_get_contents($INSTALL_DIR.'/server.expected_
 if(is_file($INSTALL_DIR.'/7DaysToDieServer.x86_64')) switch($server_expected_status)
   {
     case "reinstall_servermodmanager":
-    exec("cd /; rm -rf docker-7dtd; git clone https://github.com/XelaNull/docker-7dtd.git; cd $INSTALL_DIR; ./install_mods.sh $INSTALL_DIR");
+    exec("cd /; rm -rf docker-7dtd; git clone https://github.com/XelaNull/docker-7dtd.git; cd $INSTALL_DIR/7dtd-servermod; ./install_mods.sh $INSTALL_DIR");
     exec('echo "start" > '.$INSTALL_DIR.'/server.expected_status');
-    //file_put_contents($INSTALL_DIR.'/server.expected_status','start'); // Set this script to start the server back up
     break;
 
     case "restart":
