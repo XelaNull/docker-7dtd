@@ -57,7 +57,8 @@ function disable_mod($INSTALL_DIR, $MOD_DIR_PATH)
 
 function SDD_ModMgr()
 {
-  global $INSTALL_DIR;
+  //global $INSTALL_DIR;
+  $INSTALL_DIR="/data/7DTD";
   $MODS_DIR="$INSTALL_DIR/Mods-Available";
   //echo "PRINTING POST:";
   //print_r($_POST);
