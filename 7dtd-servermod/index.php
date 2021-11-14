@@ -385,7 +385,10 @@ $top="
   <td colspan=4 height=50><b><font size=5>".readConfigValue('ServerName')."</font></b><br>
   <iframe src=index.php?do=serverstatus width=300 height=60 frameborder=2 scrolling=no></iframe>
   </td>
-</tr>
+</tr>";
+
+if($_GET['smmreinstall']!=1)
+$top.="
 <tr>
   <td><p><a href=index.php?do=modmgr><font size=4><b>Enable/Disable Modlets</b></font></a></p></td>
   <td><p><a href=index.php?do=editFile&editFile=../7dtd.log&full=1><font size=4><b>View 7DTD Log</b></font></a></p></td>
