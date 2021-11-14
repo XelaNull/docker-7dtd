@@ -9,7 +9,7 @@ function servercontrol() {
   $SERVER_PID=exec("ps awwux | grep 7DaysToDieServer | grep -v sudo | grep -v grep");
   if(strlen($SERVER_PID)>2)
     {
-      $server_started=str_replace("\n","",exec("grep 'GameServer.Init successful' /data/7DTD/7dtd.log | wc -l"));
+      $server_started=str_replace("\n","",exec("grep 'GameServer.Init successful' $INSTALL_DIR/7dtd.log | wc -l"));
       if($server_started==1)
         {
           $status="STARTED";
@@ -31,10 +31,10 @@ function servercontrol() {
       if($_GET['control']=='FORCE_STOP'/* && ($savedCommand=='stop' || $savedCommand=='')*/)
         { exec("echo 'force_stop' > $INSTALL_DIR/server.expected_status"); $status="FORCEFUL STOPPING"; }
 
-      if($_GET['control']=='STOP') { exec("/stop_7dtd.sh &"); $status="STOPPING"; }
+      if($_GET['control']=='STOP') { exec("echo 'stop' > $INSTALL_DIR/server.expected_status"); $status="STOPPING"; }
 
       if($_GET['control']=='START')
-        { exec("/start_7dtd.sh &"); $status="STARTING"; $status_link="<a href=?do=serverstatus&control=FORCE_STOP><img border=0 width=40 src=images/force-stop.png></a>"; }
+        { exec("echo 'start' > $INSTALL_DIR/server.expected_status"); $status="STARTING"; $status_link="<a href=?do=serverstatus&control=FORCE_STOP><img border=0 width=40 src=images/force-stop.png></a>"; }
       $serverStatus=$status;
     }
   else

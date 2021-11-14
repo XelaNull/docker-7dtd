@@ -1,9 +1,10 @@
 #!/bin/bash
+export LD_LIBRARY_PATH=.
 
 # Create gameserver directory, if it doesn't exist
 if [[ ! -d $INSTALL_DIR ]]; then
   mkdir -p $INSTALL_DIR/html;
-  echo "<html><head> <meta http-equiv=\"refresh\" content=\"30\" /></head><body>7DaysToDie is currently installing in the background.</body></html>" > $INSTALL_DIR/html/index.php
+  echo "<html><head> <meta http-equiv=\"refresh\" content=\"30\" /></head><body><center>7DaysToDie is currently installing in the background.<br><br>This page will automatically refresh every 30 seconds until the server is installed.<center></body></html>" > $INSTALL_DIR/html/index.php
 fi
 cd $INSTALL_DIR
 
