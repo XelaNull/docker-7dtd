@@ -83,6 +83,8 @@ EXPOSE 26900/udp
 EXPOSE 26901/udp
 EXPOSE 26902/udp
 
+WORKDIR ["/data"]
+
 # Set to start the supervisor daemon on bootup
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
