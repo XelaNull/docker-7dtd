@@ -18,7 +18,7 @@ mv $MODCOUNT/map.js $MODS_DIR/3/Mods/Allocs_WebAndMapRendering/webserver/js
 
 wget_download "https://github.com/dmustanger/7dtd-ServerTools/releases/download/19.6.5/7dtd-ServerTools-19.6.5.zip" ServerTools.zip extract_file # ServerTools
 
-
+wget_download "https://github.com/XelaNull/7DTD-Neopolitan/releases/download/A19.3_1.0d/2021-06-03_215241-Modlet_Collection-Shouden.zip" Neopolitan.zip extract_file
 #wget_download "https://github.com/7days2mod/BadCompanySM/releases/download/v5.0.0/BCManager.zip" BCManager.zip extract_file # Bad Company Manager
 #git_clone https://github.com/DelStryker/Delmod.git #Delmod Modlets
 #rm -rf $MODCOUNT/Delmod/ModInfo.xml $MODCOUNT/Delmod/Delmod*Combiner $MODCOUNT/Delmod/Delmod_Pack_And_Store $MODCOUNT/Delmod/Delmod_Decorations $MODCOUNT/Delmod/Delmod_Kitchen $MODCOUNT/Delmod/Delmod_Double_Door $MODCOUNT/Delmod/Delmod_Electronics $MODCOUNT/Delmod/Delmod_Tools $MODCOUNT/Delmod/Delmod_Recipes* $MODCOUNT/Delmod/Delmod_Archetypes $MODCOUNT/Delmod/Delmod_Startup*
