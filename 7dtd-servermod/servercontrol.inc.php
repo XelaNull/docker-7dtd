@@ -1,6 +1,8 @@
 <?php
 function servercontrol() {
-  $savedCommand=file("/data/7DTD/server.expected_status");
+  global $INSTALL_DIR;
+
+  $savedCommand=file("$INSTALL_DIR/server.expected_status");
   $savedCommand=trim($savedCommand[0]);
 
   // Determine if the 7DTD Server is STARTED or STOPPED
@@ -12,8 +14,8 @@ function servercontrol() {
         {
           $status="STARTED";
           // Print how many WRN and ERR there were, if the $status=STARTED
-          $WRN=exec("grep WRN /data/7DTD/7dtd.log | wc -l");
-          $ERR=exec("grep ERR /data/7DTD/7dtd.log | wc -l");
+          $WRN=exec("grep WRN $INSTALL_DIR/7dtd.log | wc -l");
+          $ERR=exec("grep ERR $INSTALL_DIR/7dtd.log | wc -l");
           $serverWarningsErrors="<br><font color=yellow>warnings</font>: $WRN | <font color=red>errors</b>: $ERR";
         }
       else $status="STARTING";
@@ -27,7 +29,7 @@ function servercontrol() {
   if(@$_GET['control']!='')
     {
       if($_GET['control']=='FORCE_STOP'/* && ($savedCommand=='stop' || $savedCommand=='')*/)
-        { exec("echo 'force_stop' > /data/7DTD/server.expected_status"); $status="FORCEFUL STOPPING"; }
+        { exec("echo 'force_stop' > $INSTALL_DIR/server.expected_status"); $status="FORCEFUL STOPPING"; }
 
       if($_GET['control']=='STOP') { exec("/stop_7dtd.sh &"); $status="STOPPING"; }
 
@@ -56,7 +58,7 @@ $rtn="
 <head>
   <script type = \"text/JavaScript\">
     <!--
-    function AutoRefresh( t ) { setTimeout(\"window.location.replace('http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT']."/7dtd/index.php?do=serverstatus')\", t); }
+    function AutoRefresh( t ) { setTimeout(\"window.location.replace('http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT']."/?do=serverstatus')\", t); }
     //-->
   </script>
   <style type=\"text/css\">

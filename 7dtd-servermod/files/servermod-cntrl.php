@@ -18,10 +18,10 @@ if(!is_dir(@$argv[1])) { echo "Invalid installation directory provided.\nSyntax:
 // Set the installation directory variable
 $INSTALL_DIR=$argv[1];
 
-do {
+while (!is_dir($INSTALL_DIR)) {
  echo "$INSTALL_DIR doesn't exist yet. Sleeping for 30 seconds.";
  sleep(30);
-} while (!is_dir($INSTALL_DIR));
+}
 
 // Loop until Infinity
 while (1) {

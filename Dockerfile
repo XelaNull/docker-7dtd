@@ -19,7 +19,10 @@ COPY files/epel.repo /etc/yum.repos.d/
 COPY files/remi-safe.repo /etc/yum.repos.d/
 
 # Copy ServerMod Manager Files into Image
-RUN cd / && git clone https://github.com/XelaNull/docker-7dtd.git
+RUN yum -y install git && \
+    yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* && \
+    cd / && git clone https://github.com/XelaNull/docker-7dtd.git && \
+    cp -rp /docker-7dtd/7dtd-servermod/files/* /
 
 # Copy Steam files from builder
 COPY --from=builder /usr/lib/games/steam/steamcmd.sh /usr/lib/games/steam/
@@ -44,7 +47,7 @@ RUN yum -y install glibc.i686 libstdc++.i686 supervisor telnet expect net-tools 
 
 # Install Tools to Extract Mods
 #RUN yum -y install svn
-RUN yum -y install unzip p7zip p7zip-plugins curl git wget && \
+RUN yum -y install unzip p7zip p7zip-plugins curl wget && \
     yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* && \
     wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && \
     tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/ && \
