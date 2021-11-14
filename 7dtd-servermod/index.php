@@ -354,7 +354,7 @@ if($_GET['smmreinstall']==1)
     echo "
     <script type = \"text/JavaScript\">
       function AutoRefresh( t )
-      { setTimeout(\"window.location.replace('http://".$_SERVER['HTTP_HOST'].":".$_SERVER['SERVER_PORT']."/?do=serverstatus')\", t); }
+      { setTimeout(\"window.location.replace('http://".$_SERVER['HTTP_HOST'].":".$_SERVER['SERVER_PORT']."/')\", t); }
     </script>
     ";
   }
@@ -367,8 +367,8 @@ else echo "<body>";
 ?>
     <div style="width:100%; padding: 0px;"><?php echo $top; ?></div>
     <?php
-    if($_GET['smmreinstall']==1) echo "Reinstalling ServerMod Manager.. refreshing in 10 seconds";
-    else echo $main; 
+    if($_GET['smmreinstall']==1) echo "<br>Reinstalling ServerMod Manager.. refreshing in 10 seconds";
+    else echo $main;
     ?>
 </body>
 </html>
