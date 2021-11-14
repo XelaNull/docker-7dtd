@@ -347,11 +347,29 @@ function mainscreen($top, $main)
     });
 
     </script>
-  </head>
-<body>
-    <div style="width:100%; padding: 0px;"><?php echo $top; ?></div>
-    <?php echo $main; ?>
 
+<?php
+if($_GET['smmreinstall']==1)
+  {
+    echo "
+    <script type = \"text/JavaScript\">
+      function AutoRefresh( t )
+      { setTimeout(\"window.location.replace('http://".$_SERVER['HTTP_HOST'].":".$_SERVER['SERVER_PORT']."/?do=serverstatus')\", t); }
+    </script>
+    ";
+  }
+?>
+  </head>
+
+<?php
+if($_GET['smmreinstall']==1) echo "<body onload = \"JavaScript:AutoRefresh(10000);\">";
+else echo "<body>";
+?>
+    <div style="width:100%; padding: 0px;"><?php echo $top; ?></div>
+    <?php
+    if($_GET['smmreinstall']==1) echo "Reinstalling ServerMod Manager.. refreshing in 10 seconds";
+    else echo $main; 
+    ?>
 </body>
 </html>
 <?php
@@ -372,8 +390,6 @@ $top="
   <td><p><a href=index.php?do=modmgr><font size=4><b>Enable/Disable Modlets</b></font></a></p></td>
   <td><p><a href=index.php?do=editFile&editFile=../7dtd.log&full=1><font size=4><b>View 7DTD Log</b></font></a></p></td>
   <td><p><a href=index.php?do=editConfig><font size=4><b>Edit Configs</b></font></a></p></td>
-  <td><p><a href=index.php?smmreinstall=1><font size=4><b>Reinstall ServerMod Manager</b></font></a></p></td>
-  <tr><td><p>TEST</p></td></tr>
 </tr>
 </table>
 ";
