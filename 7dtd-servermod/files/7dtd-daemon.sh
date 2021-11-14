@@ -1,20 +1,20 @@
 #!/bin/bash
-#export LD_LIBRARY_PATH=.
+
+# Create gameserver directory, if it doesn't exist
+if [[ ! -d $INSTALL_DIR ]]; then
+  mkdir -p $INSTALL_DIR/html;
+  echo "<html><head> <meta http-equiv=\"refresh\" content=\"30\" /></head><body>7DaysToDie is currently installing in the background.</body></html>" > $INSTALL_DIR/html/index.php
+fi
+cd $INSTALL_DIR
 
 # Update Steam application
 steamcmd +quit
-
-# Create gameserver directory, if it doesn't exist
-if [[ ! -d $INSTALL_DIR ]]; then mkdir -p $INSTALL_DIR; fi
-cd $INSTALL_DIR
 
 # Make sure this script isn't hung from a previous instantiation.
 if [[ `ps awwux | grep -v grep | grep 7dtd-daemon | wc -l` > 2 ]]; then exit; fi
 # Install 7DTD gameserver, if it isn't already installed.
 while true; do
   if [ -f /7dtd.initialized ]; then break; fi;
-
-  echo "<html><head> <meta http-equiv=\"refresh\" content=\"30\" /></head><body>7DaysToDie is currently installing in the background.</body></html>" > $INSTALL_DIR/html/index.php
 
   # Set up the installation directory
   [[ ! -d $INSTALL_DIR/.local ]] && mkdir -p $INSTALL_DIR/.local;
