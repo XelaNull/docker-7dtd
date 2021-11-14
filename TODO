@@ -1,0 +1,26 @@
+
+
+ServerModManager Control Daemon:
+
+Startup Procedure:
+* Check for 7DTD Initialization
+  - Set default index.php
+  - Update Steam Client
+  - Install 7DaysToDie
+  - Install SMM Links
+  - Set file ownership to allow website to write out to serverconfig.xml, server.expected_status
+  - Begin API Loop
+
+Loop API Commands:
+<start server>
+<stop server>
+<force stop server>
+<reinstall SMM>
+<disable mod>
+<disable all mods>
+<enable mod>
+<enable all mods>
+<update mod>
+<remove mod>
+<add mod>
+<update 7dtd>
