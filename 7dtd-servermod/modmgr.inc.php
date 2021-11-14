@@ -80,18 +80,9 @@ function SDD_ModMgr()
     }
 
   // Perform update of the ServerMod Manager
-  if($_GET['smmupdate']==1)
-    {
-      exec("echo 'reload_servermodmanager' > $INSTALL_DIR/server.expected_status");
-      //$command="rm -rf $INSTALL_DIR/7dtd-servermod && cd $INSTALL_DIR && git clone https://github.com/XelaNull/7dtd-servermod.git && chmod a+x $INSTALL_DIR/7dtd-servermod/*.sh";
-      //$command_output=exec($command);
-      $rtn="<table cellspacing=0 border=1><tr><td><b>Reloading ServerMod Manager:</b><br><font size=2><i>Command Issued</i></font></td></tr></table><br>";
-    }
   if($_GET['smmreinstall']==1)
   {
     exec("echo 'reinstall_servermodmanager' > $INSTALL_DIR/server.expected_status");
-    //$command="rm -rf $INSTALL_DIR/Mods/* $INSTALL_DIR/Mods-Available/*; cd $INSTALL_DIR/7dtd-servermod && ./install_mods.sh $INSTALL_DIR && ./default_mods.sh";
-    //$command_output=exec($command);
     $rtn="<table cellspacing=0 border=1><tr><td><b>Reinstalling ServerMod Manager:</b><br><font size=2><i>Command Issued</i></font></td></tr></table><br>";
   }
 
