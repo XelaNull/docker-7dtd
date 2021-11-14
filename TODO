@@ -24,3 +24,7 @@ Loop API Commands:
 <remove mod>
 <add mod>
 <update 7dtd>
+<backup modpack>
+<restore modpack>
+<backup server>
+<restore server>
