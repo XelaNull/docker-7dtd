@@ -56,7 +56,10 @@ rm -rf $INSTALL_DIR/core.*;
 while true; do
 if [[ -f $INSTALL_DIR/7DaysToDieServer.x86_64 ]] && [[ `cat $INSTALL_DIR/server.expected_status` == "start" ]]; then
   SERVER_PID=`ps awwux | grep -v grep | grep 7DaysToDieServer.x86_64`;
-  [[ -z $SERVER_PID ]] && $INSTALL_DIR/7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated;
+  if [[ -z $SERVER_PID ]]; then
+    cd $INSTALL_DIR;
+    ./7DaysToDieServer.x86_64 -configfile=$INSTALL_DIR/serverconfig.xml -logfile $INSTALL_DIR/7dtd.log -quit -batchmode -nographics -dedicated;
+  fi
 fi
 sleep 2
 done
