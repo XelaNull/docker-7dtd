@@ -22,7 +22,13 @@ COPY files/remi-safe.repo /etc/yum.repos.d/
 RUN yum -y install git && \
     yum clean all && rm -rf /tmp/* && rm -rf /var/tmp/* && \
     cd / && git clone https://github.com/XelaNull/docker-7dtd.git && \
-    cp -rp /docker-7dtd/7dtd-servermod/files/* /
+    ln -s /docker-7dtd/7dtd-servermod/files/7dtd-daemon.sh && \
+    ln -s /docker-7dtd/7dtd-servermod/files/7dtd-sendcmd.php && \
+    ln -s /docker-7dtd/7dtd-servermod/files/7dtd-sendcmd.sh && \
+    ln -s /docker-7dtd/7dtd-servermod/files/7dtd-upgrade.sh && \
+    ln -s /docker-7dtd/7dtd-servermod/files/servermod-cntrl.php && \
+    ln -s /docker-7dtd/7dtd-servermod/files/start_7dtd.sh && \
+    ln -s /docker-7dtd/7dtd-servermod/files/stop_7dtd.sh
 
 # Copy Steam files from builder
 COPY --from=builder /usr/lib/games/steam/steamcmd.sh /usr/lib/games/steam/
