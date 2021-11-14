@@ -3,16 +3,16 @@
 # This file is meant to be used through lines you add/remove in the 7dtd-CONFIG.sh file
 #
 # This script is meant to aide in easily changing default values in a file.
-# It was written as I didn't want to fall into the same caveat that many other 
+# It was written as I didn't want to fall into the same caveat that many other
 # Dockerfile designers are, which is to have to supply full configuration files,
-# tied to a specific application version, within the Docker project. Instead, 
-# this script allows to rely on the default file that the application pushes out, 
+# tied to a specific application version, within the Docker project. Instead,
+# this script allows to rely on the default file that the application pushes out,
 # but only search and change the specific values we need. This allows app
-# developers to add new configuration parameters in their application without 
+# developers to add new configuration parameters in their application without
 # having to re-store a new configuraiton file into the Docker project.
 
 # This script supports finding the line to replace with either one or two grep strings.
-# This is handy for situations where you have a line_grep_string1 that matches 
+# This is handy for situations where you have a line_grep_string1 that matches
 # multiple lines and you need to further filter down to just a single line.
 
 # Syntax: ./replace.sh "full_file_path" "old_string" "new_string" "line_grep_string1" "line_grep_string2"
@@ -20,7 +20,7 @@
 # Formulate grep command based on whether 1 or 2 grep strings were provided
 if [[ $4 != "" ]] && [[ $5 != "" ]]; then CMD="grep \"$5\" \"$1\" | grep \"$4\"";
 elif [[ $4 != "" ]]; then CMD="grep $4 $1"
-else 
+else
   echo "SYNTAX ERROR! Missing Variable.\nSyntax: ./replace.sh full_file_path old_string new_string line_grep_string1 line_grep_string2(optional)\n";
   exit
 fi
@@ -44,10 +44,19 @@ if [[ $new_line == "" ]]; then
 fi
 
 # Make sure that the delimeter we are using in the grep command next is not present in any of the strings
-if [[ $found_line == *"|"* ]] || [[ $new_line == *"|"* ]]; then
-  echo "ERROR: The grep delimeter character | is found within the line being replaced. Change the grep_delimeter character IMMEDIATELY.";
+if [[ $found_line == *"^"* ]] || [[ $new_line == *"^"* ]]; then
+  # Perform string search and perform an in-line replacement of the entire line
+  sed -i "s^.*$found_line.*^$new_line^" $1
+elif [[ $found_line == *"|"* ]] || [[ $new_line == *"|"* ]]; then
+  # Perform string search and perform an in-line replacement of the entire line
+  sed -i "s|.*$found_line.*|$new_line|" $1
+elif [[ $found_line == *"~"* ]] || [[ $new_line == *"~"* ]]; then
+  # Perform string search and perform an in-line replacement of the entire line
+  sed -i "s~.*$found_line.*~$new_line~" $1
+elif [[ $found_line == *"_"* ]] || [[ $new_line == *"_"* ]]; then
+  # Perform string search and perform an in-line replacement of the entire line
+  sed -i "s_.*$found_line.*_$new_line_" $1
+else
+  echo "ERROR: The grep delimeter character ^, |, ~, and _ are found within some line being replaced. Change the grep_delimeter character in the replace.sh script and re-run.";
   exit
 fi
-
-# Perform string search and perform an in-line replacement of the entire line
-sed -i "s|.*$found_line.*|$new_line|" $1
