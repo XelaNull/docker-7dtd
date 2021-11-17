@@ -40,6 +40,7 @@ while true; do
 ?>" > $INSTALL_DIR/html/vars.inc.php
   [[ ! -f $INSTALL_DIR/server.expected_status ]] && touch $INSTALL_DIR/server.expected_status;
   chown nobody $INSTALL_DIR/server.expected_status
+  chown nobody $INSTALL_DIR/Mods
   ./install_mods.sh $INSTALL_DIR
 
   #chown steam:steam $INSTALL_DIR /home/steam -R
