@@ -28,7 +28,7 @@ while true; do
   [ -n "$STEAMCMD_BETA_PASSWORD" ] && betapassword="-betapassword $STEAMCMD_BETA_PASSWORD"
 
   echo "Starting Steam to perform 7DTD game server install into $INSTALL_DIR"
-  steamcmd +login anonymous +force_install_dir $INSTALL_DIR +app_update 294420 $beta $betapassword $validate +quit
+  steamcmd +force_install_dir $INSTALL_DIR +login anonymous +app_update 294420 $beta $betapassword $validate +quit
   touch /7dtd.initialized;
 
   # Install all the mods that go along with the 7DTD ServerMod Manager
