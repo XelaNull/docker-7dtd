@@ -7,9 +7,7 @@ set -e
 [ -n "$STEAMCMD_BETA_PASSWORD" ] && betapassword="-betapassword $STEAMCMD_BETA_PASSWORD"
 
 echo "Starting Steam to perform application install"
-steamcmd +login anonymous \
-  +force_install_dir $INSTALL_DIR +app_update 294420 \
-  $beta $betapassword $validate +quit
+steamcmd +force_install_dir $INSTALL_DIR +login anonymous +app_update 294420 $beta $betapassword $validate +quit
 touch /7dtd.initialized;
 
 # Create 7DTD ServerMod Manager Installer
