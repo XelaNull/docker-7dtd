@@ -50,8 +50,7 @@ RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/
 
 # Install base YUM packages required
 RUN dnf -y install nginx && \
-    dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/* && \
-    chown nginx /data/7DTD/Mods
+    dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
 
 #2024-08-11: Removed sysvinit-tools -- not sure what the ramifications of this are
 RUN dnf -y install glibc.i686 libstdc++.i686 supervisor telnet expect net-tools && \
@@ -75,14 +74,18 @@ RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisor
 RUN /gen_sup.sh php-fpm "/start-fpm.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh nginx "nginx -g 'daemon off;'" >> /etc/supervisord.conf && \
     /gen_sup.sh severmod-cntrl "/servermod-cntrl.php $INSTALL_DIR" >> /etc/supervisord.conf && \
-    /gen_sup.sh 7dtd-daemon "/7dtd-daemon.sh" >> /etc/supervisord.conf
+    /gen_sup.sh 7dtd-daemon "/7dtd-daemon.sh" >> /etc/supervisord.conf && \
+    /gen_sup.sh own-mods "/Mods-ownership-fix.sh" >> /etc/supervisord.conf
 
 # Create startup script for php-fpm
-RUN printf '#!/bin/bash\nmkdir /run/php-fpm;\n/usr/sbin/php-fpm -F' > /start-fpm.sh & \
+RUN printf '#!/bin/bash\nmkdir /run/php-fpm;\n/usr/sbin/php-fpm -F' > /start-fpm.sh && \
     chmod a+x /start-fpm.sh
 
 # Set up the Kernel tuning parameter for 7DTD Server
 RUN printf 'vm.max_map_count=262144' > /etc/sysctl.d/7dtd.conf
+
+RUN printf 'chown nginx /data/7DTD/Mods' > /Mods-ownership-fix.sh && \
+    chmod a+x /Mods-ownership-fix.sh
 
 # ServerMod Manager
 EXPOSE 80/tcp
