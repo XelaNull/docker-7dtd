@@ -69,7 +69,7 @@ function SDD_ModMgr()
     { if(basename($file)=='ModInfo.xml') $MOD_ARRAY[]=$file; }
 
   // Perform any Modlet Updating, so that we can display the outcome right here on the page
-  if($_GET['update']!='')
+  if(@$_GET['update']!='')
     {
       $SUBDIRNAME=exec("cat $MODS_DIR/$_GET[update]/ModURL.txt | rev | cut -d/ -f1 | rev | sed 's|.git||g'");
       $GITDIRNAME="$MODS_DIR/$_GET[update]/$SUBDIRNAME";
@@ -80,7 +80,7 @@ function SDD_ModMgr()
     }
 
   // Perform update of the ServerMod Manager
-  if($_GET['smmreinstall']==1)
+  if(@$_GET['smmreinstall']==1)
   {
     exec("echo 'reinstall_servermodmanager' > $INSTALL_DIR/server.expected_status");
     $rtn="<table cellspacing=0 border=1><tr><td><b>Reinstalling ServerMod Manager:</b><br><font size=2><i>Command Issued</i></font></td></tr></table><br>";
@@ -127,8 +127,8 @@ function SDD_ModMgr()
           { enable_mod($INSTALL_DIR,$FullModDir); $checkTXT='checked'; }
       }
 
-    if($_GET['disableall']==1) { disable_mod($INSTALL_DIR,$FullModDir); $checkTXT=''; }
-    elseif($_GET['enableall']==1) { enable_mod($INSTALL_DIR,$FullModDir); $checkTXT='checked'; }
+    if(@$_GET['disableall']==1) { disable_mod($INSTALL_DIR,$FullModDir); $checkTXT=''; }
+    elseif(@$_GET['enableall']==1) { enable_mod($INSTALL_DIR,$FullModDir); $checkTXT='checked'; }
 
     if(@$modInfo_Array['Website']!='')
       $Author="<a href=$modInfo_Array[Website]>$modInfo_Array[Author]</a>";

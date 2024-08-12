@@ -50,7 +50,8 @@ RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/
 
 # Install base YUM packages required
 RUN dnf -y install nginx && \
-    dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
+    dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/* && \
+    chown nginx /data/7DTD/Mods
 
 #2024-08-11: Removed sysvinit-tools -- not sure what the ramifications of this are
 RUN dnf -y install glibc.i686 libstdc++.i686 supervisor telnet expect net-tools && \

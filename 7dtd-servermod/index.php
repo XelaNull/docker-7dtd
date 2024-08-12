@@ -7,10 +7,10 @@ session_start();
 
 // Pull the server's telnet password.
 $server_password=exec("grep -i TelnetPassword $INSTALL_DIR/serverconfig.xml | cut -d= -f3 | cut -d'\"' -f2");
-if($_POST['Password']!='' && $_POST['Submit']!='' && $server_password==$_POST['Password'])
+if(@$_POST['Password']!='' && @$_POST['Submit']!='' && $server_password==@$_POST['Password'])
   { $_SESSION['password']=$_POST['Password']; setcookie('password',$_POST['Password']); }
 // If there is not a PHP session saved with a good password in it to match the telnet password, then we should bomb out to the login page
-if($_COOKIE['password']!=$server_password && $_SESSION['password']!=$server_password)
+if(@$_COOKIE['password']!=$server_password && @$_SESSION['password']!=$server_password)
   {
   $main="<form method=post>
   Password:<br>
@@ -114,7 +114,7 @@ function readConfigValue($SearchName)
           $Value=substr($line,$valuePos, ($endValuePos-$valuePos));
         }
 
-      if($Name==$SearchName && $Value!='') return($Value);
+      if(@$Name==$SearchName && $Value!='') return($Value);
     }
 }
 
@@ -349,7 +349,7 @@ function mainscreen($top, $main)
     </script>
 
 <?php
-if($_GET['smmreinstall']==1)
+if(@$_GET['smmreinstall']==1)
   {
     echo "
     <script type = \"text/JavaScript\">
@@ -362,7 +362,7 @@ if($_GET['smmreinstall']==1)
   </head>
 
 <?php
-if($_GET['smmreinstall']==1) echo "<body onload = \"JavaScript:AutoRefresh(10000);\">";
+if(@$_GET['smmreinstall']==1) echo "<body onload = \"JavaScript:AutoRefresh(10000);\">";
 else echo "<body>";
 ?>
     <div style="width:100%; padding: 0px;"><?php echo $top; ?></div>
@@ -387,7 +387,7 @@ $top="
   </td>
 </tr>";
 
-if($_GET['smmreinstall']!=1)
+if(@$_GET['smmreinstall']!=1)
 $top.="
 <tr>
   <td><p><a href=index.php?do=modmgr><font size=4><b>Enable/Disable Modlets</b></font></a></p></td>
