@@ -55,7 +55,7 @@ $rtn="
 <head>
   <script type = \"text/JavaScript\">
     <!--
-    function AutoRefresh( t ) { location.reload(); }
+    function AutoRefresh( t ) { setTimeout(\"location.reload();\", t); }
     //-->
   </script>
   <style type=\"text/css\">

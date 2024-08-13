@@ -354,7 +354,7 @@ if(@$_GET['smmreinstall']==1)
     echo "
     <script type = \"text/JavaScript\">
       function AutoRefresh( t )
-      { location.reload(); }
+      { setTimeout(\"location.reload();\", t); }
     </script>
     ";
   }
