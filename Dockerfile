@@ -38,7 +38,7 @@ RUN dnf install supervisor -y
 RUN dnf install telnet -y
 RUN dnf install expect -y
 RUN dnf install net-tools -y
-RUN dnf install git procps nginx unzip p7zip p7zip-plugins curl wget -y
+RUN dnf install git procps nginx unzip p7zip p7zip-plugins curl wget -y --allowerasing
 RUN dnf update -y && \
     dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
 
