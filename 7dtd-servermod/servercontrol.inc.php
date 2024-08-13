@@ -55,7 +55,7 @@ $rtn="
 <head>
   <script type = \"text/JavaScript\">
     <!--
-    function AutoRefresh( t ) { setTimeout(\"window.location.replace('http://".$_SERVER['HTTP_HOST'].":".$_SERVER['SERVER_PORT']."/?do=serverstatus')\", t); }
+    function AutoRefresh( t ) { location.reload(); }
     //-->
   </script>
   <style type=\"text/css\">
