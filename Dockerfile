@@ -29,7 +29,8 @@ RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/
 # Copy Supervisor Config Creator
 COPY files/gen_sup.sh /
 # Install Nginx from EPEL, PHP8 from Remi Repo, and various tools
-RUN dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm epel-release && \
+RUN dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm --allowerasing && \
+    dnf install epel-release -y --allowerasing && \
     dnf module reset php -y && \
     dnf module install php:remi-8.3 -y && \
     dnf install glibc.i686 -y && \
