@@ -20,12 +20,12 @@ COPY files/gen_sup.sh /
 # Install PHP7 from Remi Repo
 RUN dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm && \
     dnf module reset php -y && \
-    dnf module install php:remi-8.0 -y
+    dnf module install php:remi-8.0 -y && \
+    dnf install git epel-release procps nginx glibc.i686 libstdc++.i686 supervisor telnet expect net-tools unzip p7zip p7zip-plugins curl wget -y && \
+    dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
 
 # Copy ServerMod Manager Files into Image
-RUN dnf -y install git epel-release procps && \
-    dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/* && \
-    cd / && git clone https://github.com/XelaNull/docker-7dtd.git && \
+RUN cd / && git clone https://github.com/XelaNull/docker-7dtd.git && \
     ln -s /docker-7dtd/7dtd-servermod/files/7dtd-daemon.sh && \
     ln -s /docker-7dtd/7dtd-servermod/files/7dtd-sendcmd.php && \
     ln -s /docker-7dtd/7dtd-servermod/files/7dtd-sendcmd.sh && \
@@ -48,19 +48,8 @@ RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/
     chmod a+x ~/.steam/steamcmd/steamcmd.sh && \
     chmod a+x ~/.steam/steamcmd/linux32/steamcmd
 
-# Install base YUM packages required
-RUN dnf -y install nginx && \
-    dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
-
-#2024-08-11: Removed sysvinit-tools -- not sure what the ramifications of this are
-RUN dnf -y install glibc.i686 libstdc++.i686 supervisor telnet expect net-tools && \
-    dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/*
-
 # Install Tools to Extract Mods
-#RUN dnf -y install svn
-RUN dnf -y install unzip p7zip p7zip-plugins curl wget && \
-    dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/* && \
-    wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && \
+RUN wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && \
     tar -zxf rarlinux-*.tar.gz && cp rar/rar rar/unrar /usr/local/bin/ && \
     rm -rf rar* rarlinux-x64-5.5.0.tar.gz
 
@@ -70,21 +59,17 @@ COPY nginx-config/fpm-pool.conf /etc/php-fpm.d/www.conf
 COPY nginx-config/php.ini /etc/php.d/custom.ini
 
 # Configure Supervisor
-RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisord\n' > /etc/supervisord.conf
-RUN /gen_sup.sh php-fpm "/start-fpm.sh" >> /etc/supervisord.conf && \
+RUN printf '[supervisord]\nnodaemon=true\nuser=root\nlogfile=/var/log/supervisord\n' > /etc/supervisord.conf && \
+    /gen_sup.sh php-fpm "/start-fpm.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh nginx "nginx -g 'daemon off;'" >> /etc/supervisord.conf && \
     /gen_sup.sh severmod-cntrl "/servermod-cntrl.php $INSTALL_DIR" >> /etc/supervisord.conf && \
     /gen_sup.sh 7dtd-daemon "/7dtd-daemon.sh" >> /etc/supervisord.conf && \
     /gen_sup.sh own-mods "/Mods-ownership-fix.sh" >> /etc/supervisord.conf
 
-# Create startup script for php-fpm
+# Create startup script for php-fpm & the script that will fix file ownership for the server mod manager
 RUN printf '#!/bin/bash\nmkdir /run/php-fpm;\n/usr/sbin/php-fpm -F' > /start-fpm.sh && \
-    chmod a+x /start-fpm.sh
-
-# Set up the Kernel tuning parameter for 7DTD Server
-RUN printf 'vm.max_map_count=262144' > /etc/sysctl.d/7dtd.conf
-
-RUN printf '#!/bin/bash\necho "vm.max_map_count=262144" >> /etc/sysctl.conf;\nsysctl -p;\nwhile true\ndo\n\tchown nginx /data/7DTD/Mods;\n\tchown nginx /data/7DTD/server.expected_status;\n\tchown nginx /data/7DTD/serverconfig.xml;\n\tsleep 30\ndone' > /Mods-ownership-fix.sh && \
+    chmod a+x /start-fpm.sh && \
+    printf '#!/bin/bash\necho "vm.max_map_count=262144" >> /etc/sysctl.conf;\nsysctl -p;\nwhile true\ndo\n\tchown nginx /data/7DTD/Mods;\n\tchown nginx /data/7DTD/server.expected_status;\n\tchown nginx /data/7DTD/serverconfig.xml;\n\tsleep 30\ndone' > /Mods-ownership-fix.sh && \
     chmod a+x /Mods-ownership-fix.sh
 
 # ServerMod Manager
