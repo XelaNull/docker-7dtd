@@ -29,4 +29,3 @@ git_clone https://github.com/XelaNull/7DTD-Magazine_Plants_Trader.git
 git_clone https://github.com/XelaNull/7DTD-DarkerNights_BrighterLights.git
 git_clone https://github.com/XelaNull/7DTD-SalvagedElectronics.git
 git_clone https://github.com/XelaNull/7DTD-SanitysEdgeRules.git
-git_clone https://github.com/XelaNull/7dtd-Origin-UI.git

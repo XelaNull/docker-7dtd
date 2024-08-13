@@ -44,7 +44,7 @@ while true; do
 
   #chown steam:steam $INSTALL_DIR /home/steam -R
   echo "Completed Installation.";
-  echo "Your server should now be accessible at: http://<Your_Servers_IP>/7dtd"; exec "$@"
+  echo "Your 7DTD Server Mod Manager should now be accessible at: http://<Your_Servers_IP>"; exec "$@"
   sleep 6;
 done
 

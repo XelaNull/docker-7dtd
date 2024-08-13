@@ -84,7 +84,7 @@ RUN printf '#!/bin/bash\nmkdir /run/php-fpm;\n/usr/sbin/php-fpm -F' > /start-fpm
 # Set up the Kernel tuning parameter for 7DTD Server
 RUN printf 'vm.max_map_count=262144' > /etc/sysctl.d/7dtd.conf
 
-RUN printf 'echo "vm.max_map_count=262144" >> /etc/sysctl.conf;\n\tsysctl -p;\n\twhile true\ndo\n\tchown nginx /data/7DTD/Mods;\n\tchown nginx /data/7DTD/server.expected_status;\n\tchown nginx /data/7DTD/serverconfig.xml;\n\tsleep 30\ndone' > /Mods-ownership-fix.sh && \
+RUN printf '#!/bin/bash\necho "vm.max_map_count=262144" >> /etc/sysctl.conf;\nsysctl -p;\nwhile true\ndo\n\tchown nginx /data/7DTD/Mods;\n\tchown nginx /data/7DTD/server.expected_status;\n\tchown nginx /data/7DTD/serverconfig.xml;\n\tsleep 30\ndone' > /Mods-ownership-fix.sh && \
     chmod a+x /Mods-ownership-fix.sh
 
 # ServerMod Manager
