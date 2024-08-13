@@ -29,18 +29,17 @@ RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/
 # Copy Supervisor Config Creator
 COPY files/gen_sup.sh /
 # Install Nginx from EPEL, PHP8 from Remi Repo, and various tools
-RUN dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm --allowerasing && \
-    dnf install epel-release -y --allowerasing && \
-    dnf module reset php -y && \
-    dnf module install php:remi-8.3 -y && \
-    dnf install glibc.i686 -y && \
-    dnf install libstdc++.i686 -y && \
-    dnf install supervisor -y && \
-    dnf install telnet -y && \
-    dnf install expect -y && \
-    dnf install net-tools -y && \
-    dnf install git procps nginx unzip p7zip p7zip-plugins curl wget -y && \
-    dnf update -y && \
+RUN dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm --allowerasing
+RUN dnf module reset php -y
+RUN dnf module install php:remi-8.3 -y 
+RUN dnf install glibc.i686 -y
+RUN dnf install libstdc++.i686 -y
+RUN dnf install supervisor -y
+RUN dnf install telnet -y
+RUN dnf install expect -y
+RUN dnf install net-tools -y
+RUN dnf install git procps nginx unzip p7zip p7zip-plugins curl wget -y
+RUN dnf update -y && \
     dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
 
 # Copy ServerMod Manager Files into Image
