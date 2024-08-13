@@ -11,10 +11,11 @@ export INSTALL_DIR=/data/7DTD
 
 /data/7DTD/7dtd-servermod/replace.sh $INSTALL_DIR/serverconfig.xml "8" "48" ServerMaxPlayerCount
 /data/7DTD/7dtd-servermod/replace.sh $INSTALL_DIR/serverconfig.xml "0" "2" 'name="ServerAdminSlots"'
-/data/7DTD/7dtd-servermod/replace.sh $INSTALL_DIR/serverconfig.xml "Navezgane" "SANITYSEDGE" GameWorld
+/data/7DTD/7dtd-servermod/replace.sh $INSTALL_DIR/serverconfig.xml "My Game" "SANITYSEDGE" GameName
+/data/7DTD/7dtd-servermod/replace.sh $INSTALL_DIR/serverconfig.xml "Navezgane" "RWG" GameWorld
 /data/7DTD/7dtd-servermod/replace.sh $INSTALL_DIR/serverconfig.xml "My Game" "SANITYSEDGE" GameName
 /data/7DTD/7dtd-servermod/replace.sh $INSTALL_DIR/serverconfig.xml "asdf" "SANITYSEDGE" 'name="WorldGenSeed"'
-/data/7DTD/7dtd-servermod/replace.sh $INSTALL_DIR/serverconfig.xml "4096" "8192" 'name="WorldGenSize"'
+/data/7DTD/7dtd-servermod/replace.sh $INSTALL_DIR/serverconfig.xml "6144" "8192" 'name="WorldGenSize"'
 /data/7DTD/7dtd-servermod/replace.sh $INSTALL_DIR/serverconfig.xml "1" "4" GameDifficulty
 /data/7DTD/7dtd-servermod/replace.sh $INSTALL_DIR/serverconfig.xml "3" "2" ZombieMoveNight
 /data/7DTD/7dtd-servermod/replace.sh $INSTALL_DIR/serverconfig.xml 'value=""' "value=\"$TELNET_PW\"" ServerPassword
