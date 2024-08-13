@@ -1,8 +1,5 @@
-FROM steamcmd/steamcmd:rocky-8 as builder
-FROM almalinux:8
-
-# 461MB Compressed
-# 511MB Uncompressed
+FROM steamcmd/steamcmd:rocky-9 as builder
+FROM almalinux:9
 
 # Define configuration parameters
 ENV TIMEZONE="America/New_York" \
@@ -18,10 +15,17 @@ VOLUME ["/data"]
 # Copy Supervisor Config Creator
 COPY files/gen_sup.sh /
 # Install PHP7 from Remi Repo
-RUN dnf install -y https://rpms.remirepo.net/enterprise/remi-release-8.rpm && \
+RUN dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm && \
     dnf module reset php -y && \
-    dnf module install php:remi-8.0 -y && \
-    dnf install git epel-release procps nginx glibc.i686 libstdc++.i686 supervisor telnet expect net-tools unzip p7zip p7zip-plugins curl wget -y && \
+    dnf module install php:remi-8.3 -y && \
+    dnf install glibc.i686 -y && \
+    dnf install libstdc++.i686 -y && \
+    dnf install supervisor -y && \
+    dnf install telnet -y && \
+    dnf install expect -y && \
+    dnf install net-tools -y && \
+    dnf install git epel-release procps nginx unzip p7zip p7zip-plugins curl wget -y && \
+    dnf update -y && \
     dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
 
 # Copy ServerMod Manager Files into Image
@@ -83,8 +87,6 @@ EXPOSE 26900/tcp
 EXPOSE 26900/udp
 EXPOSE 26901/udp
 EXPOSE 26902/udp
-
-WORKDIR ["/data"]
 
 # Set to start the supervisor daemon on bootup
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
