@@ -17,8 +17,8 @@ export INSTALL_DIR=/data/7DTD
 ./replace.sh $INSTALL_DIR/serverconfig.xml "4096" "8192" 'name="WorldGenSize"'
 ./replace.sh $INSTALL_DIR/serverconfig.xml "2" "4" GameDifficulty
 ./replace.sh $INSTALL_DIR/serverconfig.xml "3" "2" ZombieMoveNight
-./replace.sh $INSTALL_DIR/serverconfig.xml "CHANGEME" "$TELNET_PW" ControlPanelPassword
+./replace.sh $INSTALL_DIR/serverconfig.xml 'value=""' "$TELNET_PW" ServerPassword
 ./replace.sh $INSTALL_DIR/serverconfig.xml 'value=""' "value=\"$TELNET_PW\"" TelnetPassword
 ./replace.sh $INSTALL_DIR/serverconfig.xml "72" "31" AirDropFrequency
-./replace.sh $INSTALL_DIR/serverconfig.xml "60" "90" 'name="MaxSpawnedZombies"'
+./replace.sh $INSTALL_DIR/serverconfig.xml "64" "90" 'name="MaxSpawnedZombies"'
 ./replace.sh $INSTALL_DIR/serverconfig.xml "50" "75" MaxSpawnedAnimals
