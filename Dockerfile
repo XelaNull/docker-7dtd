@@ -12,33 +12,7 @@ ENV REFRESHED_AT=2024-08-11
 
 VOLUME ["/data"]
 
-# Copy Supervisor Config Creator
-COPY files/gen_sup.sh /
-# Install PHP7 from Remi Repo
-RUN dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm && \
-    dnf module reset php -y && \
-    dnf module install php:remi-8.3 -y && \
-    dnf install glibc.i686 -y && \
-    dnf install libstdc++.i686 -y && \
-    dnf install supervisor -y && \
-    dnf install telnet -y && \
-    dnf install expect -y && \
-    dnf install net-tools -y && \
-    dnf install git epel-release procps nginx unzip p7zip p7zip-plugins curl wget -y && \
-    dnf update -y && \
-    dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
-
-# Copy ServerMod Manager Files into Image
-RUN cd / && git clone https://github.com/XelaNull/docker-7dtd.git && \
-    ln -s /docker-7dtd/7dtd-servermod/files/7dtd-daemon.sh && \
-    ln -s /docker-7dtd/7dtd-servermod/files/7dtd-sendcmd.php && \
-    ln -s /docker-7dtd/7dtd-servermod/files/7dtd-sendcmd.sh && \
-    ln -s /docker-7dtd/7dtd-servermod/files/7dtd-upgrade.sh && \
-    ln -s /docker-7dtd/7dtd-servermod/files/servermod-cntrl.php && \
-    ln -s /docker-7dtd/7dtd-servermod/files/start_7dtd.sh && \
-    ln -s /docker-7dtd/7dtd-servermod/files/stop_7dtd.sh
-
-# Copy Steam files from builder
+# Copy Steam application files from builder
 COPY --from=builder /usr/lib/games/steam/steamcmd.sh /usr/lib/games/steam/
 COPY --from=builder /usr/lib/games/steam/steamcmd /usr/lib/games/steam/
 COPY --from=builder /usr/bin/steamcmd /usr/bin/steamcmd
@@ -51,6 +25,32 @@ RUN mkdir -p ~/.steam/appcache ~/.steam/config ~/.steam/logs ~/.steam/SteamApps/
     cp -p /usr/lib/games/steam/steamcmd ~/.steam/steamcmd/linux32/ && \
     chmod a+x ~/.steam/steamcmd/steamcmd.sh && \
     chmod a+x ~/.steam/steamcmd/linux32/steamcmd
+
+# Copy Supervisor Config Creator
+COPY files/gen_sup.sh /
+# Install Nginx from EPEL, PHP8 from Remi Repo, and various tools
+RUN dnf install -y https://rpms.remirepo.net/enterprise/remi-release-9.rpm epel-release && \
+    dnf module reset php -y && \
+    dnf module install php:remi-8.3 -y && \
+    dnf install glibc.i686 -y && \
+    dnf install libstdc++.i686 -y && \
+    dnf install supervisor -y && \
+    dnf install telnet -y && \
+    dnf install expect -y && \
+    dnf install net-tools -y && \
+    dnf install git procps nginx unzip p7zip p7zip-plugins curl wget -y && \
+    dnf update -y && \
+    dnf clean all && rm -rf /tmp/* && rm -rf /var/tmp/* 
+
+# Copy ServerMod Manager Files into Image
+RUN cd / && git clone https://github.com/XelaNull/docker-7dtd.git && \
+    ln -s /docker-7dtd/7dtd-servermod/files/7dtd-daemon.sh && \
+    ln -s /docker-7dtd/7dtd-servermod/files/7dtd-sendcmd.php && \
+    ln -s /docker-7dtd/7dtd-servermod/files/7dtd-sendcmd.sh && \
+    ln -s /docker-7dtd/7dtd-servermod/files/7dtd-upgrade.sh && \
+    ln -s /docker-7dtd/7dtd-servermod/files/servermod-cntrl.php && \
+    ln -s /docker-7dtd/7dtd-servermod/files/start_7dtd.sh && \
+    ln -s /docker-7dtd/7dtd-servermod/files/stop_7dtd.sh
 
 # Install Tools to Extract Mods
 RUN wget --no-check-certificate https://www.rarlab.com/rar/rarlinux-x64-5.5.0.tar.gz && \
