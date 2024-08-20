@@ -4,7 +4,8 @@
 # Last Updated: 2024-08-11
 # For 1.0
 
-wget_download "https://illy.bz/fi/7dtd/server_fixes.tar.gz" server_fixes.tgz extract_file
+wget_download "https://illy.bz/fi/7dtd/server_fixes.tar.gz" server_fixes.tgz
+cd $MODCOUNT; tar zxvf server_fixes.tgz; cd ..
 git_clone https://github.com/Prisma501/Allocs-Webmap-for-CPM.git
 mv $MODCOUNT/Allocs-Webmap-for-CPM/map.js $MODS_DIR/1/Mods/Allocs_WebAndMapRendering/webserver_legacy/js
 
