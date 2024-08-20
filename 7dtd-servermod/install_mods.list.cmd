@@ -39,9 +39,6 @@ git_clone https://github.com/doughphunghus/7D2D-Doughs-Mods-a21.git
 mv $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Weather* $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Lights* $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Food-SousChefOfTheApocalypse $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Ambiance-DarkNights $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Ambiance-DarkIndoors $MODCOUNT/;
 rm -rf $MODCOUNT/7*
 git_clone https://github.com/JoeSloeMoe/LBU.git
-git_clone https://github.com/arramus/A21-BushcraftBites.git
-rm -rf $MODCOUNT/A20* $MODCOUNT/*.zip
-
 
 git_clone https://KhaineUK@dev.azure.com/KhaineUK/KhaineV1XMLModlets/_git/KhaineV1XMLModlets
 rm -rf $MODCOUNT/KhaineV1XMLModlets/KHV1-12* $MODCOUNT/KhaineV1XMLModlets/KHV1-60* $MODCOUNT/KhaineV1XMLModlets/KHV1-96* $MODCOUNT/KhaineV1XMLModlets/KHV1-A* $MODCOUNT/KhaineV1XMLModlets/KHV1-F* $MODCOUNT/KhaineV1XMLModlets/KHV1-Head* $MODCOUNT/KhaineV1XMLModlets/KHV1-Lock* $MODCOUNT/KhaineV1XMLModlets/KHV1-Pickup* $MODCOUNT/KhaineV1XMLModlets/KHV1-Remove* $MODCOUNT/KhaineV1XMLModlets/KHV1-S* $MODCOUNT/KhaineV1XMLModlets/KHV1-T* $MODCOUNT/KhaineV1XMLModlets/KHV1-Z*
