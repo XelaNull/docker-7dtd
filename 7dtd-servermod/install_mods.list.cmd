@@ -12,7 +12,7 @@
 
 wget_download "https://illy.bz/fi/7dtd/server_fixes.tar.gz" server_fixes.tgz extract_file
 git_clone https://github.com/Prisma501/Allocs-Webmap-for-CPM.git
-mv $MODCOUNT/map.js $MODS_DIR/1/Mods/Allocs_WebAndMapRendering/webserver/js
+mv $MODCOUNT/map.js $MODS_DIR/1/Mods/Allocs_WebAndMapRendering/webserver_legacy/js
 
 git_clone https://github.com/Prisma501/CSMM-Patrons-Mod.git
 
