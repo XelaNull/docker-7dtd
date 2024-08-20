@@ -34,24 +34,21 @@ git_clone https://github.com/XelaNull/7DTD-SanitysEdgeRules.git
 git_clone https://github.com/XelaNull/7DTD-Skillbook_Skillpoints.git
 
 git_clone https://github.com/DonovanMods/donovan-7d2d-modlets.git
-rm -rf $MODCOUNT/.github* $MODCOUNT/ZIPs $MODCOUNT/scripts $MODCOUNT/.gitignore $MODCOUNT/C* $MODCOUNT/L* $MODCOUNT/*.txt
-mv $MODCOUNT/modlets/* $MODCOUNT/; rm -rf $MODCOUNT/modlets; mv $MODCOUNT/a-la-carte/* $MODCOUNT/; rm -rf $MODCOUNT/a-la-cart;
-mkdir $MODCOUNT/KEEP; mv $MODCOUNT/donovan-betterbuffs $MODCOUNT/donovan-betterbridges $MODCOUNT/donovan-betterdyes $MODCOUNT/bettertraps $MODCOUNT/donovan-pickmeup $MODCOUNT/donovan-morehorde $MODCOUNT/donovan-nightfog $MODCOUNT/KEEP/;
-rm -rf $MODCOUNT/donovan-*; mv $MODCOUNT/KEEP/* $MODCOUNT/; rm -rf $MODCOUNT/KEEP;
+mv $MODCOUNT/donovan-7d2d-modlets/modlets/donovan-more* $MODCOUNT/donovan-7d2d-modlets/modlets/donovan-night* $MODCOUNT/donovan-7d2d-modlets/modlets/a-la-carte/donovan-betterbridges $MODCOUNT/donovan-7d2d-modlets/modlets/a-la-carte/donovan-betterbuffs $MODCOUNT/donovan-7d2d-modlets/modlets/a-la-carte/donovan-betterdyes $MODCOUNT/donovan-7d2d-modlets/modlets/a-la-carte/donovan-bettertraps $MODCOUNT/donovan-7d2d-modlets/modlets/a-la-carte/donovan-pickmeup $MODCOUNT/
+rm -rf $MODCOUNT/donovan-7d2d-modlets
 git_clone https://github.com/saminal1/samsmodsv1.0.git
-rm -rf $MODCOUNT/SA* $MODCOUNT/SC* $MODCOUNT/SK* $MODCOUNT/SL* $MODCOUNT/SN* $MODCOUNT/SO* $MODCOUNT/SS* $MODCOUNT/SWorkingStuff
+rm -rf $MODCOUNT/samsmodsv1.0/SA* $MODCOUNT/samsmodsv1.0/SC* $MODCOUNT/samsmodsv1.0/SK* $MODCOUNT/samsmodsv1.0/SL* $MODCOUNT/samsmodsv1.0/SN* $MODCOUNT/samsmodsv1.0/SO* $MODCOUNT/samsmodsv1.0/SS* $MODCOUNT/samsmodsv1.0/SWorkingStuff
 git_clone https://github.com/doughphunghus/7D2D-Doughs-Mods-a21.git
-mkdir $MODCOUNT/KEEP; mv $MODCOUNT/Doughs-Weather* $MODCOUNT/Doughs-Lights $MODCOUNT/Doughs-Food-SousChefOfTheApocalypse $MODCOUNT/Doughs-Ambiance-DarkNights $MODCOUNT/Doughs-Ambiance-DarkIndoors KEEP/;
-rm -rf $MODCOUNT/Doughs-*; mv $MODCOUNT/KEEP/* $MODCOUNT/; rm -rf $MODCOUNT/KEEP
+mv $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Weather* $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Lights $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Food-SousChefOfTheApocalypse $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Ambiance-DarkNights $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Ambiance-DarkIndoors $MODCOUNT/;
+rm -rf $MODCOUNT/7*
 git_clone https://github.com/JoeSloeMoe/LBU.git
 git_clone https://github.com/arramus/A21-BushcraftBites.git
 rm -rf $MODCOUNT/A20* $MODCOUNT/*.zip
 
 
 git_clone https://KhaineUK@dev.azure.com/KhaineUK/KhaineV1XMLModlets/_git/KhaineV1XMLModlets
-rm -rf $MODCOUNT/KHV1-12* $MODCOUNT/KHV1-60* $MODCOUNT/KHV1-96* $MODCOUNT/KHV1-A* $MODCOUNT/KHV1-F* $MODCOUNT/KHV1-Head* $MODCOUNT/KHV1-Lock* $MODCOUNT/KHV1-Pickup* $MODCOUNT/KHV1-Remove* $MODCOUNT/KHV1-S* $MODCOUNT/KHV1-T* $MODCOUNT/KHV1-Z*
+rm -rf $MODCOUNT/KhaineV1XMLModlets/KHV1-12* $MODCOUNT/KhaineV1XMLModlets/KHV1-60* $MODCOUNT/KhaineV1XMLModlets/KHV1-96* $MODCOUNT/KhaineV1XMLModlets/KHV1-A* $MODCOUNT/KhaineV1XMLModlets/KHV1-F* $MODCOUNT/KhaineV1XMLModlets/KHV1-Head* $MODCOUNT/KhaineV1XMLModlets/KHV1-Lock* $MODCOUNT/KhaineV1XMLModlets/KHV1-Pickup* $MODCOUNT/KhaineV1XMLModlets/KHV1-Remove* $MODCOUNT/KhaineV1XMLModlets/KHV1-S* $MODCOUNT/KhaineV1XMLModlets/KHV1-T* $MODCOUNT/KhaineV1XMLModlets/KHV1-Z*
 git_clone https://gitlab.com/karlgiesing/7d2d-1.0-mods.git
-mkdir $MODCOUNT/KEEP; mv $MODCOUNT/khzmusik_Trader_Lore $MODCOUNT/KEEP; rm -rf $MODCOUNT/khz*;
-mv $MODCOUNT/KEEP/* $MODCOUNT/; rm -rf $MODCOUNT/KEEP
+mv $MODCOUNT/7d2d-1.0-mods/khzmusik_Trader_Lore $MODCOUNT/; rm -rf $MODCOUNT/7d2d-1.0-mods;
 git_clone https://github.com/FilUnderscore/ImprovedHordes.git
-rm -rf $MODCOUNT/.git* $MODCOUNT/A* $MODCOUNT/S* $MODCOUNT/J* $MODCOUNT/L* $MODCOUNT/s*
+rm -rf $MODCOUNT/ImprovedHordes/.git* $MODCOUNT/ImprovedHordes/A* $MODCOUNT/ImprovedHordes/S* $MODCOUNT/ImprovedHordes/J* $MODCOUNT/ImprovedHordes/L* $MODCOUNT/ImprovedHordes/s*
