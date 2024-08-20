@@ -12,7 +12,7 @@
 
 wget_download "https://illy.bz/fi/7dtd/server_fixes.tar.gz" server_fixes.tgz extract_file
 git_clone https://github.com/Prisma501/Allocs-Webmap-for-CPM.git
-mv $MODCOUNT/map.js $MODS_DIR/1/Mods/Allocs_WebAndMapRendering/webserver_legacy/js
+mv $MODCOUNT/Allocs-Webmap-for-CPM/map.js $MODS_DIR/1/Mods/Allocs_WebAndMapRendering/webserver_legacy/js
 
 git_clone https://github.com/Prisma501/CSMM-Patrons-Mod.git
 
@@ -39,7 +39,7 @@ rm -rf $MODCOUNT/donovan-7d2d-modlets
 git_clone https://github.com/saminal1/samsmodsv1.0.git
 rm -rf $MODCOUNT/samsmodsv1.0/SA* $MODCOUNT/samsmodsv1.0/SC* $MODCOUNT/samsmodsv1.0/SK* $MODCOUNT/samsmodsv1.0/SL* $MODCOUNT/samsmodsv1.0/SN* $MODCOUNT/samsmodsv1.0/SO* $MODCOUNT/samsmodsv1.0/SS* $MODCOUNT/samsmodsv1.0/SWorkingStuff
 git_clone https://github.com/doughphunghus/7D2D-Doughs-Mods-a21.git
-mv $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Weather* $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Lights $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Food-SousChefOfTheApocalypse $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Ambiance-DarkNights $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Ambiance-DarkIndoors $MODCOUNT/;
+mv $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Weather* $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Lights* $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Food-SousChefOfTheApocalypse $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Ambiance-DarkNights $MODCOUNT/7D2D-Doughs-Mods-a21/Doughs-Ambiance-DarkIndoors $MODCOUNT/;
 rm -rf $MODCOUNT/7*
 git_clone https://github.com/JoeSloeMoe/LBU.git
 git_clone https://github.com/arramus/A21-BushcraftBites.git
