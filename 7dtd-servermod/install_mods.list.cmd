@@ -4,12 +4,12 @@
 # Last Updated: 2024-08-11
 # For 1.0
 
+git_clone https://github.com/Prisma501/CSMM-Patrons-Mod.git
+
 wget_download "https://illy.bz/fi/7dtd/server_fixes.tar.gz" server_fixes.tgz
 cd $MODCOUNT; tar zxvf server_fixes.tgz; cd ..
 git_clone https://github.com/Prisma501/Allocs-Webmap-for-CPM.git
-mv $MODCOUNT/Allocs-Webmap-for-CPM/map.js $MODS_DIR/1/Mods/Allocs_WebAndMapRendering/webserver_legacy/js
-
-git_clone https://github.com/Prisma501/CSMM-Patrons-Mod.git
+mv $MODCOUNT/Allocs-Webmap-for-CPM/map.js $MODS_DIR/2/Mods/Allocs_WebAndMapRendering/webserver_legacy/js
 
 wget_download "https://bitbucket.org/obsessive-coder/sevendaystodie-servertools/downloads/7dtd-ServerTools-G1.0.1.8.zip" ServerTools.zip extract_file # ServerTools
 
