@@ -12,6 +12,8 @@ Touchfiles that this daemon uses:
  - server.expected_status, possible values: start,stop,restart,force_stop
 */
 
+$TELNET_PASSWORD=shell_exec("grep TelnetPassword /data/7DTD/serverconfig.xml | awk '{print $3}' | cut -d\" -f2");
+
 // Error out if we were not provided a valid directory path
 //if(!is_dir(@$argv[1])) { echo "Invalid installation directory provided.\nSyntax: ./servermod-cntrl.php <absolute_path_to_7dtd_game_install_directory>\n"; exit; }
 
@@ -53,9 +55,9 @@ if(is_file($INSTALL_DIR.'/7DaysToDieServer.x86_64')) switch($server_expected_sta
     $TELNET_CHECK=exec("netstat -anptu | grep LISTEN | grep $TELNETPORT");
 
     // send the two commands needed to save the world and shutdown the server
-    exec("/7dtd-sendcmd.sh \"saveworld\"");
+    exec("/7dtd-sendcmd.sh $TELNET_PASSWORD \"saveworld\"");
     sleep(5);
-    exec("/7dtd-sendcmd.sh \"shutdown\"");
+    exec("/7dtd-sendcmd.sh $TELNET_PASSWORD \"shutdown\"");
     // Delete any core files that may have been created from gameserver crashes
     exec("rm -rf $INSTALL_DIR/core.*");
 
@@ -65,6 +67,7 @@ if(is_file($INSTALL_DIR.'/7DaysToDieServer.x86_64')) switch($server_expected_sta
         file_put_contents($INSTALL_DIR.'/server.expected_status','start'); // Set this script to start the server back up
         sleep(15); // Give the server a chance to stop, before continuing to next iteration starting it back up
       }
+    else file_put_contents($INSTALL_DIR.'/server.expected_status','stopped');
     break;
 
     // The hope and intention is that this should never be needed. But as the old saying goes:

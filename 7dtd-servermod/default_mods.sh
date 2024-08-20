@@ -1,12 +1,12 @@
 function remap () {
+cd /data/7DTD/Mods
 rm -rf "$1"
 echo "Setting Default for $1"
 ln -s "`find $INSTALL_DIR/Mods-Available -name \"ModInfo.xml\" | sed 's|/ModInfo.xml||g' | grep "$1" | tail -1`"
+cd /data/7DTD
 }
 
 cd $INSTALL_DIR/Mods
-
-
 
 remap Allocs_CommandExtensions
 remap Allocs_CommonFunc
@@ -55,3 +55,8 @@ remap 7DTD-ServerRules
 remap Terrain_Based_Movement_Speed
 remap Trader_Refresh_1Day
 remap ZLoot_Increase
+remap Xal_SetZombiesAttackAnimals
+remap Zombiepedia_Skillpoints
+remap Vanilla_Expanded_Storage
+#remap 7DTD-SteelTrussingSheet
+remap KHV1-LogSpikes

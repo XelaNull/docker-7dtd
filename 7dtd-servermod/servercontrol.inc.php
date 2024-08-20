@@ -22,13 +22,14 @@ function servercontrol() {
     }
   else $status="STOPPED";
 
+  if($_GET['control']=='STOP' && $SERVER_PID!='') { exec("echo 'stop' > $INSTALL_DIR/server.expected_status"); $status="STOPPING"; $_GET['control']=''; }
 
-  if(@$_GET['control']!='')
+  if(@$_GET['control']!='' && @$_GET['control']!='STOP' )
     {
       if($_GET['control']=='FORCE_STOP'/* && ($savedCommand=='stop' || $savedCommand=='')*/)
         { exec("echo 'force_stop' > $INSTALL_DIR/server.expected_status"); $status="FORCEFUL STOPPING"; }
 
-      if($_GET['control']=='STOP') { exec("echo 'stop' > $INSTALL_DIR/server.expected_status"); $status="STOPPING"; }
+      
 
       if($_GET['control']=='START')
         { exec("echo 'start' > $INSTALL_DIR/server.expected_status"); $status="STARTING"; $status_link="<a href=?do=serverstatus&control=FORCE_STOP><img border=0 width=40 src=images/force-stop.png></a>"; }
@@ -55,8 +56,10 @@ $rtn="
 <head>
   <script type = \"text/JavaScript\">
     <!--
-    function AutoRefresh( t ) { setTimeout(\"location.reload();\", t); }
-    //-->
+    window.setTimeout( function() {
+      window.location.reload();
+    }, 5000);
+        //-->
   </script>
   <style type=\"text/css\">
   body, td {
@@ -65,7 +68,7 @@ $rtn="
   }
   </style>
 </head>
-<body onload = \"JavaScript:AutoRefresh(5000);\" BGCOLOR=\"#525252\" TEXT=white>
+<body BGCOLOR=\"#525252\" TEXT=white>
 <table cellspacing=0 cellpadding=0 width=280>
   <tr>
     <td valign=top>
